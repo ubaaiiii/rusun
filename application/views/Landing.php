@@ -254,17 +254,9 @@
 					<?php for ($i=1; $i <= $juml_lantai; $i++) { ?>
 	          <div class="col-md-3 d-flex ftco-animate">
 	            <div class="blog-entry justify-content-end">
-	              <a href="<?=base_url('home/booking');?>" class="block-20" style="background-image: url('<?= base_url('assets/img/'); ?><?=($kCowokL[$i]=="0")?('kasur-close.png'):('kasur.png');?>');"></a>
+	              <a href="<?=base_url('home/booking');?>" class="block-20" style="background-image: url('assets/img/kamar-cowo.jpg');"></a>
 	              <div class="text mt-3 float-right d-block">
-	                <!-- <div class="d-flex align-items-center pt-2 mb-4 topp">
-	                  <div class="one mr-3">
-	                    <span class="day">Lantai <?=$i;?></span>
-	                  </div>
-	                  <div class="two">
-	                    <span class="yr">2019</span>
-	                    <span class="mos">Floor</span>
-	                  </div>
-	                </div> -->
+                  <i class="fa fa-ban text-danger" style="position: absolute;top: 18%;left: 21%;font-size:10em;<?=($kCowokL[$i]=='0')?(''):('display:none;');?>"></i>
 	                <h3 class="heading">
 	                  <a href="<?=base_url('home/booking');?>">Lantai <?=$i;?></a>
 	                </h3>
@@ -273,7 +265,7 @@
                   ?>
   	                <p>Kamar di lantai ini kami beri harga:<br><?=$hCowokL[$i];?></p>
                   <?php } else { ?>
-                    <p>Mohon maaf kamar di lantai ini sedang penuh<br>&nbsp;</p>
+                    <p>Mohon maaf kamar di lantai ini sedang tidak tersedia<br>&nbsp;</p>
                   <?php } ?>
 	                <div class="d-flex align-items-center mt-4 meta">
 	                  <p class="mb-0">
@@ -304,21 +296,19 @@
 					<?php for ($i=1; $i <= $juml_lantai; $i++) { ?>
 	          <div class="col-md-3 d-flex ftco-animate">
 	            <div class="blog-entry justify-content-end">
-	              <a href="<?=base_url('auth');?>" class="block-20" style="background-image: url('<?= base_url('assets/img/'); ?><?=($kCewekL[$i]=="0")?('kasur-close.png'):('kasur.png');?>');"></a>
+	              <a href="<?=base_url('auth');?>" class="block-20" style="background-image: url('assets/img/kamar-cewe.jpeg');"></a>
 	              <div class="text mt-3 float-right d-block">
-	                <!-- <div class="d-flex align-items-center pt-2 mb-4 topp">
-	                  <div class="one mr-3">
-	                    <span class="day">Lantai <?=$i;?></span>
-	                  </div>
-	                  <div class="two">
-	                    <span class="yr">2019</span>
-	                    <span class="mos">Floor</span>
-	                  </div>
-	                </div> -->
+                  <i class="fa fa-ban text-danger" style="position: absolute;top: 18%;left: 21%;font-size:10em;<?=($kCewekL[$i]=='0')?(''):('display:none;');?>"></i>
 	                <h3 class="heading">
 	                  <a href="<?=base_url('auth');?>">Lantai <?=$i;?></a>
 	                </h3>
-	                <p>Kamar di lantai ini kami beri harga:<br><?=$hCewekL[$i];?></p>
+                  <?php
+                    if($kCewekL[$i]!=0){
+                  ?>
+  	                <p>Kamar di lantai ini kami beri harga:<br><?=$hCewekL[$i];?></p>
+                  <?php } else { ?>
+                    <p>Mohon maaf kamar di lantai ini sedang tidak tersedia<br>&nbsp;</p>
+                  <?php } ?>
 	                <div class="d-flex align-items-center mt-4 meta">
 	                  <p class="mb-0">
 	                    <a <?=($kCewekL[$i]!=0)?('href='.base_url('home/booking')):('');?> class="btn btn-secondary">Sisa Kamar : <?= $kCewekL[$i]; ?></a>
@@ -493,7 +483,7 @@
       $('[data-toggle="popover"]').popover();
 
       <?php
-        if (!isset($dUser['admin'])) {
+        if (isset($dUser['nik'])) {
           if ($dUser['gender']==1) {
             echo "$('#booking-perempuan').empty();";
           } else {
