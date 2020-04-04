@@ -27,6 +27,7 @@
     <link rel="stylesheet" href="<?= base_url('assets/home/') ?>css/aos.css">
 
     <link rel="stylesheet" href="<?= base_url('assets/home/') ?>css/ionicons.min.css">
+    <script src="<?= base_url('assets/home/') ?>js/jquery.min.js"></script>
 
 		<style>
 		h4
@@ -340,23 +341,52 @@
         </div>
         <div class="row no-gutters block-9">
           <div class="col-md-6 order-md-last d-flex">
-            <form action="#" class="bg-light p-5 contact-form">
+            <fieldset id="field-pesan">
+            <form class="bg-light p-5 contact-form" id="form-pesan">
               <div class="form-group">
-                <input type="text" class="form-control" placeholder="Nama">
+                <input type="text" name="nama" class="form-control text-capitalize" placeholder="Nama" required>
               </div>
               <div class="form-group">
-                <input type="text" class="form-control" placeholder="Email">
+                <input type="email" name="email" class="form-control" placeholder="Email" required>
               </div>
               <div class="form-group">
-                <input type="text" class="form-control" placeholder="Judul">
+                <input type="text" name="judul" class="form-control text-capitalize" placeholder="Judul" required>
               </div>
               <div class="form-group">
-                <textarea name="" id="" cols="30" rows="7" class="form-control" placeholder="Pesan"></textarea>
+                <textarea name="pesan" id="" cols="30" rows="7" class="form-control" placeholder="Pesan" required></textarea>
               </div>
               <div class="form-group">
                 <input type="submit" value="Kirim Pesan" class="btn btn-secondary py-3 px-5">
               </div>
             </form>
+          </fieldset>
+            <script>
+              $(document).ready(function(){
+                $('#form-pesan').submit(function(e){
+                  e.preventDefault();
+                  var dataPesan = $(this).serialize();
+                  $('#field-pesan').prop('disabled','true');
+                  $.ajax({
+                    url: "<?=base_url('pesan/simpan');?>",
+                    data: dataPesan,
+                    type: "post",
+                    success: function(data) {
+                      if (data=="true") {
+                        $('#field-pesan').prop('disabled',false);
+                        $(':input','#form-pesan')
+                        .not(':button, :submit, :reset, :hidden')
+                        .val('');
+                        Swal.fire(
+                          'Success!',
+                          'Terima kasih telah menghubungi kami.',
+                          'success'
+                        )
+                      }
+                    }
+                  })
+                })
+              })
+            </script>
 
           </div>
 
@@ -459,8 +489,6 @@
   <!-- loader -->
   <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
 
-
-  <script src="<?= base_url('assets/home/') ?>js/jquery.min.js"></script>
   <script src="<?=base_url();?>assets/js/sweetalert2.js"></script>
   <script src="<?= base_url('assets/home/') ?>js/jquery-migrate-3.0.1.min.js"></script>
   <script src="<?= base_url('assets/home/') ?>js/popper.min.js"></script>
