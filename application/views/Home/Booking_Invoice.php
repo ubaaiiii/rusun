@@ -8,7 +8,7 @@
                         <span><?=$setting['nama'];?></span>
                     </div>
                     <div class="iv-right col-6 text-md-right">
-                        <span>Kode Booking #<?=$invoice['code_booking'];?></span>
+                        <span>Kode <?=($invoice['status']==0)?('Booking'):('Transaksi');?> #<?=$invoice['code_booking'];?></span>
                     </div>
                 </div>
             </div>
@@ -45,7 +45,7 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td class="text-left">Pembayaran Booking Rusun, Kamar <?=$invoice['code'];?>, di Lantai <?=$invoice['tingkat'];?></td>
+                            <td class="text-left">Pembayaran <?=($invoice['status']==0)?('Booking'):('Perpanjang Sewa');?> Kamar Rusun<?=$invoice['code'];?>, di Lantai <?=$invoice['tingkat'];?></td>
                             <td><?=$invoice['jumlah'];?> Bulan</td>
                             <td>Rp. <?=number_format($invoice['harga'],2,',','.');?></td>
                             <td>Rp. <?=number_format($invoice['harga']*$invoice['jumlah'],2,',','.');?></td>
@@ -64,7 +64,7 @@
         <div class="float-right">
             <a href="javascript:void(0);" onclick="printDiv('invoice-area');" class="btn btn-primary">Print Invoice</a>
             <a href="javascript:void(0);" id="upload-bukti" data-toggle="modal" data-target="#modalSmall" onclick="$('.modal-body').load('<?=base_url('modal/upload_bukti/').$invoice['code_booking'];?>');" class="btn btn-success">Upload Bukti</a>
-            <a href="javascript:void(0);" id="booking-cancel" data-booking="<?=$invoice['code_booking'];?>" class="btn btn-danger">Cancel Booking</a>
+            <a href="javascript:void(0);" id="booking-cancel" data-booking="<?=$invoice['code_booking'];?>" class="btn btn-danger">Cancel <?=($invoice['status']==0)?('Booking'):('Perpanjang');?></a>
         </div>
     </div>
 </div>
@@ -85,7 +85,7 @@
       var dataBooking = $(this).attr('data-booking');
       Swal.fire({
         title: 'Anda Yakin Ingin Cancel?',
-        text: "Booking #"+dataBooking+" tidak akan bisa dikembalikan.",
+        text: "<?=($invoice['status']==0)?('Booking'):('Transaksi');?> #"+dataBooking+" tidak akan bisa dikembalikan.",
         icon: 'question',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
@@ -94,14 +94,19 @@
         confirmButtonText: 'Yakin!'
       }).then((result) => {
         if(result.value){
+          if (<?=$invoice['status'];?>==0) {
+            var tipeCancel = "booking";
+          } else {
+            var tipeCancel = "perpanjang";
+          }
           $.ajax({
-            url: "<?=base_url('booking/batal/');?>"+dataBooking,
+            url: "<?=base_url('booking/batal/');?>"+tipeCancel+"/"+dataBooking,
             type: "post",
             success: function(data) {
               // console.log(data);
               swal.fire({
                 title: "Success!",
-                text: "Booking #"+dataBooking+" telah dibatalkan.",
+                text: "<?=($invoice['status']==0)?('Booking'):('Transaksi');?> #"+dataBooking+" telah dibatalkan.",
                 icon: "success",
                 showConfirmButton: false,
                 timer: 1000
@@ -147,7 +152,7 @@
     if(expp != "expired"){
       Swal.fire({
         title:'Pemberitahuan',
-        html:'Harap Melunasi Booking #<?=$invoice['code_booking'];?>.',
+        html:'Harap Melunasi <?=($invoice['status']==0)?('Booking'):('Transaksi');?> #<?=$invoice['code_booking'];?>.',
         footer:'<a href="<?=base_url('home');?>">Hubungi Admin.</a>',
         icon:'warning'
       })

@@ -81,18 +81,19 @@
                 <li>
                   <a href="<?=base_url();?>" aria-expanded="true">
                     <i class="icon-home"></i>
-                    <span>Landing Page</span><br><small>Halaman Utama Website</small></a>
+                    <span>Landing Page</span>
+                    <br><small>Halaman Utama Website</small></a>
                 </li>
                 <li><a href="<?= base_url('home/booking') ?>">
                     <?php if (isset($dUser['admin'])): ?>
-                        <i class="icon-calendar"></i> <span>Booking</span>
+                        <i class="icon-calendar"></i> <span>Transaksi</span>
                         <?php if ($booking > 0): ?>
                             <span class="badge badge-danger"><?= $booking ?> Notif</span>
+                            <br><small>Proses Booking, Konfirmasi, Tolak</small>
                         <?php endif ?>
                     <?php else: ?>
                         <i class="icon-calendar"></i> <span>Booking</span>
                     <?php endif; ?>
-                    <br><small>Proses Booking, Konfirmasi, Tolak</small>
                   </a>
                 </li>
 

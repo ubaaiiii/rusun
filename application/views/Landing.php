@@ -473,7 +473,7 @@
                   <li>Batas waktu menerima tamu pukul 21:00.</li>
                 </ul>
               </li>
-              <li>Jam 24:00 pagar rusun ditutup, untuk yang bekerja hingga larut bisa meminta salinan kunci pagar dengan kewajiban menjaga keamanan, kenyamanan, dan ketertiban rusun.</li>
+              <li>Jam 24:00 pagar rusun ditutup, untuk yang bekerja hingga larut bisa mendaftarkan diri ke keamanan agar mendapat persetujuan pulang larut malam. Keamanan rusun bekerja selama 24 jam.</li>
               <li>Hilangnya barang atas kecerobohan atau kecelakaan bukan tanggung jawab Rusunawa.</li>
             </ol>
           </div>

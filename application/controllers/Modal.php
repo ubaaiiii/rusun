@@ -34,6 +34,17 @@ class Modal extends CI_Controller
       $this->load->view('modal/booking',$data);
     }
 
+    public function perpanjang($id)
+    {
+      $data['perpanjang'] = $this->db->select('*')
+                                     ->from('booking a')
+                                     ->join('kamar b','a.kamar_id = b.id')
+                                     ->where('a.code_booking',$id)
+                                     ->get()
+                                     ->row_array();
+      $this->load->view('modal/perpanjang',$data);
+    }
+
     public function bukti($gambar='')
     {
       $data['gambar'] = $gambar;

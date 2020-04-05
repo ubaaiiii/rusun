@@ -272,11 +272,12 @@
   <div class="card-body">
     <h4 class="header-title">History Booking</h4>
     <div class="data-tables datatable-dark">
-      <table id="tableBooking" class="text-center table-hover">
+      <table id="tableBookingUser" class="text-center table-hover">
         <thead class="text-capitalize">
           <tr>
             <th rowspan="2">No</th>
-            <th rowspan="2">ID Kamar</th>
+            <th rowspan="2">Kode Booking</th>
+            <th rowspan="2">Kamar</th>
             <th colspan="3">Tanggal</th>
             <th colspan="2">Bukti</th>
             <th rowspan="2">Status</th>
@@ -308,7 +309,15 @@
         return "RP. "+ribuan;
     }
 
-    var table_booking = $('#tableBooking').DataTable({
+    $('#tableBookingUser tbody').on( 'click', '.perpanjang', function () {
+      var booking = $(this).attr('data-booking');
+      var kamar = $(this).attr('data-kamar');
+      $('#judulModal').html('Perpanjang Sewa Kamar '+kamar);
+      $('#load-modal-here').load('<?=base_url('modal/perpanjang/');?>'+booking);
+      $('#modalSmall').modal({'backdrop': 'static','keyboard':false});
+    })
+
+    var table_booking = $('#tableBookingUser').DataTable({
       responsive: true,
       autoWidth: false,
       ajax:{
@@ -317,6 +326,7 @@
           dataSrc: ""
       },
       columns:[
+        {data:"id_kamar"},
         {data:"booking"},
         {data:"kamar"},
         {data:"tanggal_booking", render:function(data){
@@ -343,7 +353,10 @@
               return `<a href="<?=base_url('home');?>" data-toggle="tooltip" data-placement="right" title="Hubungi Admin" style="letter-spacing: 2px;"><span class="badge badge-pill badge-warning">MENUNGGU<br>KONFIRMASI</span></a>`;
               break;
             case ("2"):
-              return '<span class="badge badge-pill badge-success" style="letter-spacing: 2px;">SEDANG<br>DIHUNI</span>';
+              return `<div class="btn-group" role="group" aria-label="Basic example">
+                          <button type="button" class="btn btn-xs btn-success">Sedang Dihuni</button>
+                          <button type="button" class="perpanjang btn btn-xs btn-success fa fa-plus" data-kamar="`+row.kamar+`" data-booking="`+row.booking+`" data-toggle="tooltip" data-placement="top" title="Perpanjang"></button>
+                      </div>`;
               break;
             case ("3"):
               return '<span class="badge badge-pill badge-success" style="letter-spacing: 2px;">SELESAI</span>';
@@ -352,7 +365,8 @@
               return '<a href="<?=base_url('home');?>" data-toggle="tooltip" data-placement="right" title="Hubungi Admin" style="letter-spacing: 2px;"><span class="badge badge-pill badge-warning" style="letter-spacing: 2px;">DITOLAK</span></a>';
               break;
           }
-        }}
+        }},
+        {data:"id_kamar",visible:false}
       ],
       "columnDefs": [ {
           "searchable": false,
@@ -367,12 +381,6 @@
             cell.innerHTML = i+1;
         } );
     } ).draw();
-
-    $('#tableBooking tbody').on( 'click', '#lihat-bukti', function () {
-      var gambar = $(this).attr('data-gambar');
-      $('#judulModal').html('Bukti Transfer');
-      $('#load-modal-here').load('<?=base_url('modal/bukti/');?>'+gambar);
-    });
 
   $(".switch").on('click', function(){
     $(this).toggleClass("active");

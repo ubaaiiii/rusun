@@ -13,7 +13,7 @@ class Booking extends CI_Controller
     public function Data($nik=null)
     {
       if($nik==null){
-        $this->db->select('a.code_booking as booking,(a.jumlah*c.harga) as uang, b.nama, c.code as kamar, a.tanggal_booking, a.tanggal_mulai, a.tanggal_selesai, concat(d.bank," - ",d.nama) as rekening, a.upload_bukti, a.status as bookstats, a.tanggal_lunas')
+        $this->db->select('a.code_booking as booking,(a.jumlah*c.harga) as uang, b.nama, c.code as kamar, c.id as id_kamar, a.tanggal_booking, a.tanggal_mulai, a.tanggal_selesai, concat(d.bank," - ",d.nama) as rekening, a.upload_bukti, a.status as bookstats, a.tanggal_lunas')
         ->from('booking a')
         ->join('users b','b.nik = a.user_nik','left')
         ->join('kamar c','c.id = a.kamar_id','left')
@@ -21,7 +21,7 @@ class Booking extends CI_Controller
         ->where('a.status != ','0');
         echo json_encode($this->db->get()->result_array());
       } else {
-        $this->db->select('a.code_booking as booking, b.nama, c.code as kamar, a.tanggal_booking, a.tanggal_mulai, a.tanggal_selesai, concat(d.bank," - ",d.nama) as rekening, a.upload_bukti, a.status as bookstats, a.tanggal_lunas')
+        $this->db->select('a.code_booking as booking, b.nama, c.code as kamar, c.id as id_kamar, a.tanggal_booking, a.tanggal_mulai, a.tanggal_selesai, concat(d.bank," - ",d.nama) as rekening, a.upload_bukti, a.status as bookstats, a.tanggal_lunas')
         ->from('booking a')
         ->join('users b','b.nik = a.user_nik','left')
         ->join('kamar c','c.id = a.kamar_id')
@@ -123,6 +123,42 @@ class Booking extends CI_Controller
       }
     }
 
+    public function perpanjang()
+    {
+      $dUser = (array) $this->session->userdata('user_rusun');
+      $id = $this->input->post('id-kamar');
+      $kode = $this->input->post('id-booking');
+      $jumlah = $this->input->post('bulan');
+      $data_perpanjang = array(
+        'code_booking'      => $kode,
+        'tanggal_perpanjang'=> date('Y-m-d H:i:s'),
+        'tanggal_akhir'     => $this->input->post('tanggal-selesai')." ".$this->input->post('waktu-mulai'),
+        'jumlah_bulan'      => $jumlah,
+        'status'            => 0
+      )
+      if ($this->db->insert('perpanjang',$data_perpanjang)) {
+        $this->db->update('booking',['status'=>5],['code_booking'=>$kode]);
+      }
+
+      // $datanya = array(
+      //   'code_booking'    => $randnum,
+      //   'user_nik'        => $dUser['nik'],
+      //   'kamar_id'        => $id,
+      //   'jumlah'          => $jumlah,
+      //   'tanggal_mulai'   => $this->input->post('tanggal-mulai')." ".$this->input->post('waktu-mulai'),
+      //   'tanggal_selesai' => $this->input->post('tanggal-selesai')." ".$this->input->post('waktu-mulai'),
+      //   'tanggal_booking' => date('Y-m-d H:i:s'),
+      //   'status'          => 5
+      // );
+      // if($this->db->get_where('booking',['code_booking'=>$randnum])->num_rows()>=1){
+      //   echo "exists";
+      // } else {
+      //   if ($this->db->insert('booking',$datanya)) {
+      //     echo "true";
+      //   }
+      // }
+    }
+
     public function upload_bukti()
     {
       $config['upload_path']    = "./assets/images/bukti/";
@@ -135,21 +171,31 @@ class Booking extends CI_Controller
         $data = array('upload_data' => $this->upload->data());
         $image= $data['upload_data']['file_name'];
         $codeBooking = $this->input->post('code-booking');
+        $bookingnya = $this->db->get_where('booking',['code_booking'=>$codeBooking])->row_array();
         $rekening = $this->input->post('rekening');
-        $result = $this->db->set(['upload_bukti'=>$image,'rek_id'=>$rekening,'status'=>1])->where('code_booking', $codeBooking)->update('booking');
+        if ($bookingnya['status']==0){
+          $result = $this->db->set(['upload_bukti'=>$image,'rek_id'=>$rekening,'status'=>1])->where('code_booking', $codeBooking)->update('booking');
+        } elseif ($bookingnya['status']==5) {
+          $this->db->update('booking',['status'=>6])
+          $result = $this->db->set(['upload_bukti'=>$image,'rek_id'=>$rekening,'status'=>2])->where('code_booking', $codeBooking)->update('booking');
+        }
         echo json_encode($result);
       } else {
         echo "upload_error";
       }
     }
 
-    public function batal($code)
+    public function batal($tipe,$code)
     {
-      $this->db->query("UPDATE kamar
-                        JOIN booking on kamar.id = booking.kamar_id
-                        SET kamar.status = '1'
-                        WHERE booking.code_booking = $code");
-      echo json_encode($this->db->delete('booking',['code_booking'=>$code]));
+      if ($tipe=="booking") {
+        $this->db->query("UPDATE kamar
+          JOIN booking on kamar.id = booking.kamar_id
+          SET kamar.status = '1'
+          WHERE booking.code_booking = $code");
+          echo json_encode($this->db->delete('booking',['code_booking'=>$code]));
+      } else if ($tipe=="perpanjang") {
+        echo json_encode($this->db->delete('booking',['code_booking'=>$code]));
+      }
     }
 
     public function getKamar()

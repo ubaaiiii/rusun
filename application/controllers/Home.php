@@ -57,6 +57,7 @@ class Home extends CI_Controller
           } else {
             $cek_booking = $this->db->get_where('booking',['user_nik'=>$sesi_login['nik'],'status'=>0])->num_rows();
             $cek_history = $this->db->get_where('booking',['user_nik'=>$sesi_login['nik'],'status'=>'!=0'])->num_rows();
+            $cek_perpanjang = $this->db->get_where('booking',['user_nik'=>$sesi_login['nik'],'status'=>5])->num_rows();
             if($cek_booking >= 1){
               $data = array(
               // 'lunas'         => true,
@@ -70,6 +71,25 @@ class Home extends CI_Controller
               ->join('kamar b','a.kamar_id = b.id')
               ->where('user_nik',$sesi_login['nik'])
               ->where('a.status','0')
+              ->get()
+              ->row_array()
+              );
+              $this->load->view('layout/header', $data);
+              $this->load->view('home/booking_invoice', $data);
+              $this->load->view('layout/footer', $data);
+            } elseif ($cek_perpanjang >= 1) {
+              $data = array(
+              // 'lunas'         => true,
+              'setting'       => $this->db->get('setting')->row_array(),
+              'booking'       => $this->db->get_where('booking', ['status' => 1])->num_rows(),
+              'lokasi'        => "Booking",
+              'dUser'         => $sesi_login,
+              'rekening'      => $this->db->get('rekening')->result_array(),
+              'invoice'       => $this->db->select('a.code_booking, b.code, b.tingkat, a.jumlah, b.harga, a.tanggal_booking, a.status')
+              ->from('booking a')
+              ->join('kamar b','a.kamar_id = b.id')
+              ->where('user_nik',$sesi_login['nik'])
+              ->where('a.status','5')
               ->get()
               ->row_array()
               );
