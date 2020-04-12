@@ -67,12 +67,12 @@ class Home extends CI_Controller
               'dUser'         => $sesi_login,
               'rekening'      => $this->db->get('rekening')->result_array(),
               'invoice'       => $this->db->select('*')
-              ->from('booking a')
-              ->join('kamar b','a.kamar_id = b.id')
-              ->where('user_nik',$sesi_login['nik'])
-              ->where('a.status','0')
-              ->get()
-              ->row_array()
+                                          ->from('booking a')
+                                          ->join('kamar b','a.kamar_id = b.id')
+                                          ->where('user_nik',$sesi_login['nik'])
+                                          ->where('a.status','0')
+                                          ->get()
+                                          ->row_array()
               );
               $this->load->view('layout/header', $data);
               $this->load->view('home/booking_invoice', $data);
@@ -86,12 +86,19 @@ class Home extends CI_Controller
               'dUser'         => $sesi_login,
               'rekening'      => $this->db->get('rekening')->result_array(),
               'invoice'       => $this->db->select('a.code_booking, b.code, b.tingkat, a.jumlah, b.harga, a.tanggal_booking, a.status')
-              ->from('booking a')
-              ->join('kamar b','a.kamar_id = b.id')
-              ->where('user_nik',$sesi_login['nik'])
-              ->where('a.status','5')
-              ->get()
-              ->row_array()
+                                          ->from('booking a')
+                                          ->join('kamar b','a.kamar_id = b.id')
+                                          ->where('user_nik',$sesi_login['nik'])
+                                          ->where('a.status','5')
+                                          ->get()
+                                          ->row_array(),
+              'perpanjang'    => $this->db->select('a.*')
+                                          ->from('perpanjang a')
+                                          ->join('booking b','a.code_booking = b.code_booking')
+                                          ->where('b.user_nik',$sesi_login['nik'])
+                                          ->where('a.status','0')
+                                          ->get()
+                                          ->row_array()
               );
               $this->load->view('layout/header', $data);
               $this->load->view('home/booking_invoice', $data);

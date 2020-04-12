@@ -6,7 +6,7 @@
 </style>
 <fieldset id="field-ktp">
   <form id="form-bukti" enctype="multipart/form-data">
-    <input type="text" name="code-booking" value="<?=$dataBooking['code_booking'];?>" hidden>
+    <input type="text" name="code-booking" value="<?=(isset($dataBooking))?($dataBooking['code_booking']):($dataPerpanjang['code_booking']);?>" hidden>
     <input type="text" id="rekeningText" name="rekening" hidden>
     <div class="form-group">
       <select class="custom-select" id="rekening" required onchange="$('#rekeningText').val($('#rekening option:selected').val());">
@@ -53,7 +53,7 @@ $(document).ready(function() {
       $('button#submit').html('<i class="fa fa-spinner fa-pulse"></i> Uploading <span class="loader__dot">. </span><span class="loader__dot">. </span><span class="loader__dot">.</span>');
       // console.log($('#form-bukti').serialize());
       $.ajax({
-        url:'<?php echo base_url("booking/upload_bukti");?>',
+        url:'<?= base_url("booking/upload_bukti");?>',
         type:"post",
         data:new FormData(this), //this is formData
         processData:false,

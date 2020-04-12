@@ -83,6 +83,7 @@ $waktu_sekarang = date('H:i', $sekarang);
         data: datanya,
         type: "post",
         success: function(data) {
+          console.log(data);
           if (data=="true") {
             $('modalSmall').modal('hide');
             swal.fire({

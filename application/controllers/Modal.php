@@ -92,7 +92,7 @@ class Modal extends CI_Controller
     public function upload_bukti($id=null)
     {
       $data['rekening'] = $this->db->get('rekening')->result_array();
-      $data['dataBooking'] = $this->db->get_where('booking',['code_booking'=>$id])->row_array();
+      $data['codeBooking'] = $id;
       $this->load->view('modal/upload_bukti',$data);
     }
 }

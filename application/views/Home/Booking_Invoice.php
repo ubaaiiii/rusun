@@ -63,7 +63,7 @@
         </div>
         <div class="float-right">
             <a href="javascript:void(0);" onclick="printDiv('invoice-area');" class="btn btn-primary">Print Invoice</a>
-            <a href="javascript:void(0);" id="upload-bukti" data-toggle="modal" data-target="#modalSmall" onclick="$('.modal-body').load('<?=base_url('modal/upload_bukti/').$invoice['code_booking'];?>');" class="btn btn-success">Upload Bukti</a>
+            <a href="javascript:void(0);" id="upload-bukti" data-toggle="modal" data-target="#modalSmall" onclick="$('.modal-body').load('<?=base_url('modal/upload_bukti/'.$invoice['code_booking']);?>');" class="btn btn-success">Upload Bukti</a>
             <a href="javascript:void(0);" id="booking-cancel" data-booking="<?=$invoice['code_booking'];?>" class="btn btn-danger">Cancel <?=($invoice['status']==0)?('Booking'):('Perpanjang');?></a>
         </div>
     </div>
@@ -127,7 +127,7 @@
     <?php
       if (!isset($lunas)){
     ?>
-    var ends = new Date("<?=date('Y-m-d H:i:s',strtotime($invoice['tanggal_booking'])+60*60);?>").getTime();
+    var ends = new Date("<?=date('Y-m-d H:i:s',strtotime(($invoice['status']==0)?($invoice['tanggal_booking']):($perpanjang['tanggal_request']))+60*60);?>").getTime();
     var x = setInterval(function() {
       var now = new Date().getTime();
       var distance = ends - now;

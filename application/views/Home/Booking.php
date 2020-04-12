@@ -355,7 +355,7 @@
             case ("2"):
               return `<div class="btn-group" role="group" aria-label="Basic example">
                           <button type="button" class="btn btn-xs btn-success">Sedang Dihuni</button>
-                          <button type="button" class="perpanjang btn btn-xs btn-success fa fa-plus" data-kamar="`+row.kamar+`" data-booking="`+row.booking+`" data-toggle="tooltip" data-placement="top" title="Perpanjang"></button>
+                          <button type="button" class="perpanjang btn btn-xs btn-success fa fa-plus" data-kamar="`+row.kamar+`" data-booking="`+row.booking+`" data-toggle="tooltip" data-placement="top" title="Perpanjang Sewa?"></button>
                       </div>`;
               break;
             case ("3"):
@@ -363,6 +363,9 @@
               break;
             case ("4"):
               return '<a href="<?=base_url('home');?>" data-toggle="tooltip" data-placement="right" title="Hubungi Admin" style="letter-spacing: 2px;"><span class="badge badge-pill badge-warning" style="letter-spacing: 2px;">DITOLAK</span></a>';
+              break;
+            case ("6"):
+              return `<a href="<?=base_url('home');?>" data-toggle="tooltip" data-placement="right" title="Hubungi Admin" style="letter-spacing: 2px;"><span class="badge badge-pill badge-warning">MENUNGGU<br>KONFIRMASI</span></a>`;
               break;
           }
         }},
@@ -372,7 +375,11 @@
           "searchable": false,
           "orderable": false,
           "targets": 0
-      } ],
+      },{
+          "searchable": false,
+          "orderable": false,
+          "targets": 8
+      }],
       "order": [[ 1, 'asc' ]]
     });
 
