@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.1
+-- version 5.0.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 22, 2020 at 10:48 PM
--- Server version: 10.4.8-MariaDB
--- PHP Version: 7.3.11
+-- Generation Time: Jun 04, 2020 at 10:35 AM
+-- Server version: 10.4.11-MariaDB
+-- PHP Version: 7.2.27
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -46,7 +46,7 @@ CREATE TABLE `admin` (
 INSERT INTO `admin` (`id`, `nama`, `email`, `password`, `foto`, `no_telp`, `admin`, `cookie`) VALUES
 (1, 'Rusun 1', 'anugerahgustir@gmail.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', 'user3.png', '085325115407', 1, ''),
 (2, 'Rusun 2', 'timtam.rpl@gmail.com', 'd033e22ae348aeb5660fc2140aec35850c4da997', 'user2.png', '085325115407', 1, ''),
-(3, 'Ubai', 'e@e.e', 'd033e22ae348aeb5660fc2140aec35850c4da997', 'ed165e89c29c1fd2a97b635133cd6458.png', '087877200523', 1, ''),
+(3, 'Ubai', 'e@e.e', 'd033e22ae348aeb5660fc2140aec35850c4da997', '8f9f31a7b6c8ae1e3ec3f3cb38a0d952.jpg', '087877200523', 1, ''),
 (4, 'Tonny', 'emailnya@tonny.com', '3da541559918a808c2402bba5012f6c60b27661c', 'king.png', '087825464658', 1, '');
 
 -- --------------------------------------------------------
@@ -65,7 +65,6 @@ CREATE TABLE `booking` (
   `tanggal_mulai` datetime DEFAULT NULL,
   `tanggal_selesai` datetime NOT NULL,
   `tanggal_lunas` datetime DEFAULT NULL,
-  `jam` varchar(30) NOT NULL,
   `upload_bukti` text NOT NULL,
   `rek_id` int(2) DEFAULT NULL,
   `status` int(2) NOT NULL
@@ -75,12 +74,13 @@ CREATE TABLE `booking` (
 -- Dumping data for table `booking`
 --
 
-INSERT INTO `booking` (`id`, `code_booking`, `user_nik`, `kamar_id`, `jumlah`, `tanggal_booking`, `tanggal_mulai`, `tanggal_selesai`, `tanggal_lunas`, `jam`, `upload_bukti`, `rek_id`, `status`) VALUES
-(2, 380770214, '327307090371003', 1, 3, '2020-02-11 00:00:00', '2020-02-12 00:00:00', '2020-03-12 00:00:00', '2020-03-17 01:12:16', '23:55', 'link.jpg', 2, 3),
-(3, 1072961200, '928402984092384', 2, 2, '2020-02-13 00:00:00', '2020-02-12 00:00:00', '2020-03-12 00:00:00', '2020-03-17 01:12:11', '02:49:18', 'bca.jpg', 3, 3),
-(9, 1411392328, '123123123', 10, 8, '2020-03-17 01:15:31', '2020-03-26 07:30:00', '2020-11-26 07:30:00', '2020-03-17 01:17:59', '', '65437c55311c3edf1c53adb181e3b7ed.jpg', 2, 2),
-(10, 120935074, '54466489564', 7, 12, '2020-03-17 02:25:19', '2020-03-17 02:25:00', '2021-03-17 02:25:00', '2020-03-17 02:26:57', '', '4971b7dda6cda37ce1fd79bedc3a6c0a.png', 3, 2),
-(13, 515398327, '1232', 3, 12, '2020-03-23 03:48:14', '2020-03-23 03:48:00', '2021-03-23 03:48:00', '2020-03-23 04:45:05', '', 'e1adfa3b2dc6725411f97c48f5074d6a.jpg', 2, 4);
+INSERT INTO `booking` (`id`, `code_booking`, `user_nik`, `kamar_id`, `jumlah`, `tanggal_booking`, `tanggal_mulai`, `tanggal_selesai`, `tanggal_lunas`, `upload_bukti`, `rek_id`, `status`) VALUES
+(2, 380770214, '327307090371003', 1, 3, '2020-02-11 00:00:00', '2020-02-12 00:00:00', '2020-03-12 00:00:00', '2020-03-17 01:12:16', 'link.jpg', 2, 3),
+(3, 1072961200, '928402984092384', 2, 2, '2020-02-13 00:00:00', '2020-02-12 00:00:00', '2020-03-12 00:00:00', '2020-03-17 01:12:11', 'bca.jpg', 3, 3),
+(9, 1411392328, '123123123', 10, 8, '2020-03-17 01:15:31', '2020-03-26 07:30:00', '2020-11-26 07:30:00', '2020-03-17 01:17:59', '65437c55311c3edf1c53adb181e3b7ed.jpg', 2, 2),
+(10, 120935074, '54466489564', 7, 12, '2020-03-17 02:25:19', '2020-03-17 02:25:00', '2021-03-17 02:25:00', '2020-03-17 02:26:57', '4971b7dda6cda37ce1fd79bedc3a6c0a.png', 3, 2),
+(13, 515398327, '1232', 3, 12, '2020-03-23 03:48:14', '2020-03-23 03:48:00', '2021-03-23 03:48:00', '2020-03-23 04:45:05', 'e1adfa3b2dc6725411f97c48f5074d6a.jpg', 2, 4),
+(17, 1643772807, '1232', 11, 2, '2020-04-14 15:10:42', '2020-04-14 15:10:00', '2020-06-14 15:10:00', NULL, '', NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -128,14 +128,14 @@ CREATE TABLE `kamar` (
 
 INSERT INTO `kamar` (`id`, `code`, `tingkat`, `harga`, `gender`, `status`) VALUES
 (1, 'A1', 1, '6000000', 1, 1),
-(2, 'B2', 1, '600000', 1, 1),
 (3, 'A3', 2, '550000', 1, 1),
 (5, 'A5', 3, '500000', 1, 1),
 (6, 'B6', 3, '500000', 2, 1),
 (7, 'A7', 4, '450000', 1, 3),
 (8, 'B8', 4, '450000', 2, 1),
 (10, 'A9', 4, '2000000', 1, 3),
-(11, 'B9', 4, '1500000', 2, 1);
+(11, 'B9', 4, '1500000', 2, 2),
+(12, 'B1', 2, '234234', 2, 1);
 
 -- --------------------------------------------------------
 
@@ -170,7 +170,7 @@ INSERT INTO `keuangan` (`id`, `tanggal_confirm`, `uang`, `deskripsi`, `code_book
 
 CREATE TABLE `perpanjang` (
   `id` int(11) NOT NULL,
-  `booking_id` int(40) NOT NULL,
+  `code_booking` int(11) NOT NULL,
   `tanggal` date NOT NULL,
   `biaya` varchar(90) NOT NULL,
   `bulan` varchar(20) NOT NULL
@@ -180,7 +180,7 @@ CREATE TABLE `perpanjang` (
 -- Dumping data for table `perpanjang`
 --
 
-INSERT INTO `perpanjang` (`id`, `booking_id`, `tanggal`, `biaya`, `bulan`) VALUES
+INSERT INTO `perpanjang` (`id`, `code_booking`, `tanggal`, `biaya`, `bulan`) VALUES
 (1, 1, '2019-05-20', '1000000', '2');
 
 -- --------------------------------------------------------
@@ -331,7 +331,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `booking`
 --
 ALTER TABLE `booking`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `gallery`
@@ -343,7 +343,7 @@ ALTER TABLE `gallery`
 -- AUTO_INCREMENT for table `kamar`
 --
 ALTER TABLE `kamar`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `keuangan`
