@@ -63,7 +63,7 @@ if (isset($user)) {
       $('#alamat-user').attr('placeholder','".$user['alamat']."');
       $('#L').css('display',none);
       $('#P').css('display',none);
-      $('#lbl-gender').append(' ".$gender"');
+      $('#lbl-gender').append('".$gender."');
     });
     </script>";
   }

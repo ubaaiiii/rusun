@@ -53,8 +53,8 @@ class Modal extends CI_Controller
 
     public function user($kode=null,$id=null)
     {
-      if ($kode!=null) {
-        if ($kode=="admin") {
+      if ($kode !== null) {
+        if ($kode === "admin") {
           $data['user'] = $this->db->get_where('admin',['id'=>$id])->row_array();
         } else {
           $data['user'] = $this->db->get_where('users',['nik'=>$id])->row_array();
