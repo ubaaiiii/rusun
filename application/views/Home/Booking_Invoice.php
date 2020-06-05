@@ -43,18 +43,25 @@
                             <th>Total</th>
                         </tr>
                     </thead>
+                    <?php
+                      if ($invoice['status']==0) {
+                        $jumlah = $invoice['jumlah'];
+                      } else {
+                        $jumlah = $perpanjang['jumlah_bulan'];
+                      }
+                    ?>
                     <tbody>
                         <tr>
                             <td class="text-left">Pembayaran <?=($invoice['status']==0)?('Booking'):('Perpanjang Sewa');?> Kamar Rusun <?=$invoice['code'];?>, di Lantai <?=$invoice['tingkat'];?></td>
-                            <td><?=($invoice['status']==0)?($invoice['jumlah']):($perpanjang['jumlah_bulan']);?> Bulan</td>
+                            <td><?=$jumlah;?> Bulan</td>
                             <td>Rp. <?=number_format($invoice['harga'],2,',','.');?></td>
-                            <td>Rp. <?=number_format($invoice['harga']*(($invoice['status']==0)?($invoice['jumlah']):($perpanjang['jumlah_bulan'])),2,',','.');?></td>
+                            <td>Rp. <?=number_format($invoice['harga']*$jumlah,2,',','.');?></td>
                         </tr>
                     </tbody>
                     <tfoot>
                         <tr>
                             <td colspan="3">Yang harus dibayar :</td>
-                            <td>Rp. <?=number_format($invoice['harga']*(($invoice['status']==0)?($invoice['jumlah']):($perpanjang['jumlah_bulan'])),2,',','.');?></td>
+                            <td>Rp. <?=number_format($invoice['harga']*$jumlah,2,',','.');?></td>
                         </tr>
                         <h1 style="display:none;" class="stampel">LUNAS</h1>
                     </tfoot>

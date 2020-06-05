@@ -89,10 +89,13 @@ class Modal extends CI_Controller
       $this->load->view('modal/ktp');
     }
 
-    public function upload_bukti($id=null)
+    public function upload_bukti($id=null,$perpanjang=null)
     {
       $data['rekening'] = $this->db->get('rekening')->result_array();
       $data['codeBooking'] = $id;
+      if($perpanjang!=null) {
+        $data['perpanjang'] = true;
+      }
       $this->load->view('modal/upload_bukti',$data);
     }
 }

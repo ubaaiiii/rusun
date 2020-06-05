@@ -66,7 +66,7 @@ class Home extends CI_Controller
               'lokasi'        => "Booking",
               'dUser'         => $sesi_login,
               'rekening'      => $this->db->get('rekening')->result_array(),
-              'invoice'       => $this->db->select('*')
+              'invoice'       => $this->db->select('a.code_booking, b.code, b.tingkat, a.jumlah, b.harga, a.tanggal_booking, a.status')
                                           ->from('booking a')
                                           ->join('kamar b','a.kamar_id = b.id')
                                           ->where('user_nik',$sesi_login['nik'])
@@ -138,25 +138,26 @@ class Home extends CI_Controller
         if($cetak=="print"){
           $periode = $this->input->post('periode');
           $data = array(
-          'setting' => $this->db->get('setting')->row_array(),
-          'periode' => $periode,
-          'data'    => $this->db->get('keuangan')->result_array()
+            'setting' => $this->db->get('setting')->row_array(),
+            'periode' => $periode,
+            'data'    => $this->db->get('keuangan')->result_array()
           );
           if($periode=="All Periode"){
-            $this->db->select('a.id, b.code_booking as booking,b.tanggal_booking, b.tanggal_selesai, d.code as kamar, c.nama, b.rek_id, a.uang')
+            $data['datanya'] = $this->db->select('a.id, b.code_booking as booking,b.tanggal_booking, b.tanggal_selesai, d.code as kamar, c.nama, b.rek_id, a.uang')
             ->from('keuangan a')
             ->join('booking b','b.id = a.code_booking','left')
             ->join('users c','c.nik = b.user_nik')
             ->join('kamar d','d.id = b.kamar_id')
-            ->order_by('b.tanggal_selesai','ASC');
-            $data['datanya'] = $this->db->get()->result_array();
-            $this->db->select('sum(uang) as uang,')
+            ->order_by('b.tanggal_selesai','ASC')
+            ->get()->result_array();
+
+            $data['total'] = $this->db->select('sum(uang) as uang,')
             ->from('keuangan a')
             ->join('booking b','b.id = a.code_booking','left')
             ->join('users c','c.nik = b.user_nik')
             ->join('kamar d','d.id = b.kamar_id')
-            ->order_by('b.tanggal_selesai','ASC');
-            $data['total'] = $this->db->get()->row_array();
+            ->order_by('b.tanggal_selesai','ASC')
+            ->get()->row_array();
           } else {
             $this->db->select('a.id, b.code_booking as booking, b.tanggal_booking, b.tanggal_selesai, d.code as kamar, c.nama, b.rek_id, a.uang')
             ->from('keuangan a')
