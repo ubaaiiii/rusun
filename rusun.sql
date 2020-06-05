@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 04, 2020 at 10:35 AM
+-- Generation Time: Jun 05, 2020 at 09:50 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.2.27
 
@@ -77,7 +77,7 @@ CREATE TABLE `booking` (
 INSERT INTO `booking` (`id`, `code_booking`, `user_nik`, `kamar_id`, `jumlah`, `tanggal_booking`, `tanggal_mulai`, `tanggal_selesai`, `tanggal_lunas`, `upload_bukti`, `rek_id`, `status`) VALUES
 (2, 380770214, '327307090371003', 1, 3, '2020-02-11 00:00:00', '2020-02-12 00:00:00', '2020-03-12 00:00:00', '2020-03-17 01:12:16', 'link.jpg', 2, 3),
 (3, 1072961200, '928402984092384', 2, 2, '2020-02-13 00:00:00', '2020-02-12 00:00:00', '2020-03-12 00:00:00', '2020-03-17 01:12:11', 'bca.jpg', 3, 3),
-(9, 1411392328, '123123123', 10, 8, '2020-03-17 01:15:31', '2020-03-26 07:30:00', '2020-11-26 07:30:00', '2020-03-17 01:17:59', '65437c55311c3edf1c53adb181e3b7ed.jpg', 2, 2),
+(9, 1411392328, '123123123', 10, 8, '2020-03-17 01:15:31', '2020-03-26 07:30:00', '2020-11-26 07:30:00', '2020-03-17 01:17:59', '65437c55311c3edf1c53adb181e3b7ed.jpg', 2, 6),
 (10, 120935074, '54466489564', 7, 12, '2020-03-17 02:25:19', '2020-03-17 02:25:00', '2021-03-17 02:25:00', '2020-03-17 02:26:57', '4971b7dda6cda37ce1fd79bedc3a6c0a.png', 3, 2),
 (13, 515398327, '1232', 3, 12, '2020-03-23 03:48:14', '2020-03-23 03:48:00', '2021-03-23 03:48:00', '2020-03-23 04:45:05', 'e1adfa3b2dc6725411f97c48f5074d6a.jpg', 2, 4),
 (17, 1643772807, '1232', 11, 2, '2020-04-14 15:10:42', '2020-04-14 15:10:00', '2020-06-14 15:10:00', NULL, '', NULL, 0);
@@ -171,17 +171,19 @@ INSERT INTO `keuangan` (`id`, `tanggal_confirm`, `uang`, `deskripsi`, `code_book
 CREATE TABLE `perpanjang` (
   `id` int(11) NOT NULL,
   `code_booking` int(11) NOT NULL,
-  `tanggal` date NOT NULL,
-  `biaya` varchar(90) NOT NULL,
-  `bulan` varchar(20) NOT NULL
+  `tanggal_request` datetime NOT NULL,
+  `tanggal_awal` datetime NOT NULL,
+  `tanggal_akhir` datetime NOT NULL,
+  `jumlah_bulan` int(2) NOT NULL,
+  `status` int(2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `perpanjang`
 --
 
-INSERT INTO `perpanjang` (`id`, `code_booking`, `tanggal`, `biaya`, `bulan`) VALUES
-(1, 1, '2019-05-20', '1000000', '2');
+INSERT INTO `perpanjang` (`id`, `code_booking`, `tanggal_request`, `tanggal_awal`, `tanggal_akhir`, `jumlah_bulan`, `status`) VALUES
+(2, 1411392328, '2020-06-05 14:05:48', '2020-11-26 07:30:00', '2020-12-26 07:30:00', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -251,8 +253,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`nik`, `nama`, `email`, `password`, `no_telp`, `alamat`, `gender`, `foto`, `ktp`, `status`) VALUES
-('123123123', 'Ahmad karim', 'timtam.rpl@gmail.compojan@gmail.com', 'd033e22ae348aeb5660fc2140aec35850c4da997', '085230516559', 'Jember', 1, 'male.png', 'image.png', 1),
-('1232', 'Asdf', 'w@w.w', '3da541559918a808c2402bba5012f6c60b27661c', '1234', 'asdf', 2, '6a3bf15ca95d1b9225990a64b36dc0a2.png', '5615dff8179fdace0ae03ec9555bdc56.jpg', 1),
+('123123123', 'Asdf', 'w@w.w', '3da541559918a808c2402bba5012f6c60b27661c', '1234', 'asdf', 2, '6a3bf15ca95d1b9225990a64b36dc0a2.png', '5615dff8179fdace0ae03ec9555bdc56.jpg', 1),
+('1232', 'Ahmad karim', 'timtam.rpl@gmail.compojan@gmail.com', 'd033e22ae348aeb5660fc2140aec35850c4da997', '085230516559', 'Jember', 1, 'male.png', 'image.png', 1),
 ('321', 'Asdf', 'q@q.q', '3da541559918a808c2402bba5012f6c60b27661c', '432423', 'fdas', 1, '88ff68df2292e594403a2b86d03efb92.png', '7999fdff30aa960242d787bc8ab3e8ab.jpg', 1),
 ('327307090371003', 'Achmad Hidayat', 'timtam.rpl@gmail.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', '05325115407', 'timtam.rpl@gmail.com', 1, 'male.png', 'ktp1.jpg', 1),
 ('54466489564', 'Syahid Muhammad Hanif', 'syahid@email.com', '3da541559918a808c2402bba5012f6c60b27661c', '0215498498', 'jalan tamiya', 1, 'male.png', 'e5511a99d9c0ff5ddedb75b7121f42c5.jpg', 1),
@@ -355,7 +357,7 @@ ALTER TABLE `keuangan`
 -- AUTO_INCREMENT for table `perpanjang`
 --
 ALTER TABLE `perpanjang`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `rekening`
