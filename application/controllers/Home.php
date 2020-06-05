@@ -145,7 +145,7 @@ class Home extends CI_Controller
           if($periode=="All Periode"){
             $data['datanya'] = $this->db->select('a.id, b.code_booking as booking,b.tanggal_booking, b.tanggal_selesai, d.code as kamar, c.nama, b.rek_id, a.uang')
             ->from('keuangan a')
-            ->join('booking b','b.id = a.code_booking','left')
+            ->join('booking b','b.code_booking = a.code_booking','left')
             ->join('users c','c.nik = b.user_nik')
             ->join('kamar d','d.id = b.kamar_id')
             ->order_by('b.tanggal_selesai','ASC')
@@ -153,7 +153,7 @@ class Home extends CI_Controller
 
             $data['total'] = $this->db->select('sum(uang) as uang,')
             ->from('keuangan a')
-            ->join('booking b','b.id = a.code_booking','left')
+            ->join('booking b','b.code_booking = a.code_booking','left')
             ->join('users c','c.nik = b.user_nik')
             ->join('kamar d','d.id = b.kamar_id')
             ->order_by('b.tanggal_selesai','ASC')
@@ -161,7 +161,7 @@ class Home extends CI_Controller
           } else {
             $this->db->select('a.id, b.code_booking as booking, b.tanggal_booking, b.tanggal_selesai, d.code as kamar, c.nama, b.rek_id, a.uang')
             ->from('keuangan a')
-            ->join('booking b','b.id = a.code_booking','left')
+            ->join('booking b','b.code_booking = a.code_booking','left')
             ->join('users c','c.nik = b.user_nik')
             ->join('kamar d','d.id = b.kamar_id')
             ->where('b.tanggal_selesai >=',substr($periode,0,10))
@@ -170,7 +170,7 @@ class Home extends CI_Controller
             $data['datanya'] = $this->db->get()->result_array();
             $this->db->select('sum(uang) as uang')
             ->from('keuangan a')
-            ->join('booking b','b.id = a.code_booking','left')
+            ->join('booking b','b.code_booking = a.code_booking','left')
             ->join('users c','c.nik = b.user_nik')
             ->join('kamar d','d.id = b.kamar_id')
             ->where('b.tanggal_selesai >=',substr($periode,0,10))

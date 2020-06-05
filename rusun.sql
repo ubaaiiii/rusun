@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 05, 2020 at 09:50 AM
+-- Generation Time: Jun 05, 2020 at 11:02 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.2.27
 
@@ -56,8 +56,7 @@ INSERT INTO `admin` (`id`, `nama`, `email`, `password`, `foto`, `no_telp`, `admi
 --
 
 CREATE TABLE `booking` (
-  `id` int(11) NOT NULL,
-  `code_booking` int(10) DEFAULT NULL,
+  `code_booking` int(10) NOT NULL,
   `user_nik` varchar(20) NOT NULL,
   `kamar_id` int(20) NOT NULL,
   `jumlah` int(2) DEFAULT NULL,
@@ -74,13 +73,14 @@ CREATE TABLE `booking` (
 -- Dumping data for table `booking`
 --
 
-INSERT INTO `booking` (`id`, `code_booking`, `user_nik`, `kamar_id`, `jumlah`, `tanggal_booking`, `tanggal_mulai`, `tanggal_selesai`, `tanggal_lunas`, `upload_bukti`, `rek_id`, `status`) VALUES
-(2, 380770214, '327307090371003', 1, 3, '2020-02-11 00:00:00', '2020-02-12 00:00:00', '2020-03-12 00:00:00', '2020-03-17 01:12:16', 'link.jpg', 2, 3),
-(3, 1072961200, '928402984092384', 2, 2, '2020-02-13 00:00:00', '2020-02-12 00:00:00', '2020-03-12 00:00:00', '2020-03-17 01:12:11', 'bca.jpg', 3, 3),
-(9, 1411392328, '123123123', 10, 8, '2020-03-17 01:15:31', '2020-03-26 07:30:00', '2020-11-26 07:30:00', '2020-03-17 01:17:59', '65437c55311c3edf1c53adb181e3b7ed.jpg', 2, 6),
-(10, 120935074, '54466489564', 7, 12, '2020-03-17 02:25:19', '2020-03-17 02:25:00', '2021-03-17 02:25:00', '2020-03-17 02:26:57', '4971b7dda6cda37ce1fd79bedc3a6c0a.png', 3, 2),
-(13, 515398327, '1232', 3, 12, '2020-03-23 03:48:14', '2020-03-23 03:48:00', '2021-03-23 03:48:00', '2020-03-23 04:45:05', 'e1adfa3b2dc6725411f97c48f5074d6a.jpg', 2, 4),
-(17, 1643772807, '1232', 11, 2, '2020-04-14 15:10:42', '2020-04-14 15:10:00', '2020-06-14 15:10:00', NULL, '', NULL, 0);
+INSERT INTO `booking` (`code_booking`, `user_nik`, `kamar_id`, `jumlah`, `tanggal_booking`, `tanggal_mulai`, `tanggal_selesai`, `tanggal_lunas`, `upload_bukti`, `rek_id`, `status`) VALUES
+(120935074, '54466489564', 7, 12, '2020-03-17 02:25:19', '2020-03-17 02:25:00', '2021-03-17 02:25:00', '2020-03-17 02:26:57', '4971b7dda6cda37ce1fd79bedc3a6c0a.png', 3, 2),
+(380770214, '327307090371003', 1, 3, '2020-02-11 00:00:00', '2020-02-12 00:00:00', '2020-03-12 00:00:00', '2020-03-17 01:12:16', 'link.jpg', 2, 3),
+(515398327, '1232', 3, 12, '2020-03-23 03:48:14', '2020-03-23 03:48:00', '2021-03-23 03:48:00', '2020-03-23 04:45:05', 'e1adfa3b2dc6725411f97c48f5074d6a.jpg', 2, 4),
+(741582317, '213', 1, 1, '2020-06-05 14:59:20', '2020-06-05 14:59:00', '2020-07-05 14:59:00', '2020-06-05 15:13:06', '39632adf525521e66ecd3d408ea87bb6.png', 2, 2),
+(1072961200, '928402984092384', 2, 2, '2020-02-13 00:00:00', '2020-02-12 00:00:00', '2020-03-12 00:00:00', '2020-03-17 01:12:11', 'bca.jpg', 3, 3),
+(1411392328, '123123123', 10, 8, '2020-03-17 01:15:31', '2020-03-26 07:30:00', '2020-11-26 07:30:00', '2020-03-17 01:17:59', '65437c55311c3edf1c53adb181e3b7ed.jpg', 2, 6),
+(1643772807, '1232', 11, 2, '2020-04-14 15:10:42', '2020-04-14 15:10:00', '2020-06-14 15:10:00', NULL, '', NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -127,7 +127,7 @@ CREATE TABLE `kamar` (
 --
 
 INSERT INTO `kamar` (`id`, `code`, `tingkat`, `harga`, `gender`, `status`) VALUES
-(1, 'A1', 1, '6000000', 1, 1),
+(1, 'A1', 1, '6000000', 1, 3),
 (3, 'A3', 2, '550000', 1, 1),
 (5, 'A5', 3, '500000', 1, 1),
 (6, 'B6', 3, '500000', 2, 1),
@@ -160,7 +160,8 @@ INSERT INTO `keuangan` (`id`, `tanggal_confirm`, `uang`, `deskripsi`, `code_book
 (9, '2020-03-17', '18000000', 'Konfirmasi Pembayaran Booking', 380770214),
 (10, '2020-03-17', '16000000', 'Konfirmasi Pembayaran Booking', 1411392328),
 (11, '2020-03-17', '16000000', 'Konfirmasi Pembayaran Booking', 1411392328),
-(12, '2020-03-17', '5400000', 'Konfirmasi Pembayaran Booking', 120935074);
+(12, '2020-03-17', '5400000', 'Konfirmasi Pembayaran Booking', 120935074),
+(13, '2020-06-05', '6000000', 'Konfirmasi Pembayaran Booking', 741582317);
 
 -- --------------------------------------------------------
 
@@ -175,6 +176,7 @@ CREATE TABLE `perpanjang` (
   `tanggal_awal` datetime NOT NULL,
   `tanggal_akhir` datetime NOT NULL,
   `jumlah_bulan` int(2) NOT NULL,
+  `upload_bukti` text NOT NULL,
   `status` int(2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -182,8 +184,8 @@ CREATE TABLE `perpanjang` (
 -- Dumping data for table `perpanjang`
 --
 
-INSERT INTO `perpanjang` (`id`, `code_booking`, `tanggal_request`, `tanggal_awal`, `tanggal_akhir`, `jumlah_bulan`, `status`) VALUES
-(2, 1411392328, '2020-06-05 14:05:48', '2020-11-26 07:30:00', '2020-12-26 07:30:00', 1, 0);
+INSERT INTO `perpanjang` (`id`, `code_booking`, `tanggal_request`, `tanggal_awal`, `tanggal_akhir`, `jumlah_bulan`, `upload_bukti`, `status`) VALUES
+(2, 1411392328, '2020-06-05 15:05:48', '2020-11-26 07:30:00', '2020-12-26 07:30:00', 1, '', 0);
 
 -- --------------------------------------------------------
 
@@ -255,6 +257,7 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`nik`, `nama`, `email`, `password`, `no_telp`, `alamat`, `gender`, `foto`, `ktp`, `status`) VALUES
 ('123123123', 'Asdf', 'w@w.w', '3da541559918a808c2402bba5012f6c60b27661c', '1234', 'asdf', 2, '6a3bf15ca95d1b9225990a64b36dc0a2.png', '5615dff8179fdace0ae03ec9555bdc56.jpg', 1),
 ('1232', 'Ahmad karim', 'timtam.rpl@gmail.compojan@gmail.com', 'd033e22ae348aeb5660fc2140aec35850c4da997', '085230516559', 'Jember', 1, 'male.png', 'image.png', 1),
+('213', 'Rizqi Ubaidillah', 'r@r.r', '3da541559918a808c2402bba5012f6c60b27661c', '087', 'jalanin aja dulu', 1, 'male.png', 'dfe854ce422aa64cd41345cd58e59c4d.png', 1),
 ('321', 'Asdf', 'q@q.q', '3da541559918a808c2402bba5012f6c60b27661c', '432423', 'fdas', 1, '88ff68df2292e594403a2b86d03efb92.png', '7999fdff30aa960242d787bc8ab3e8ab.jpg', 1),
 ('327307090371003', 'Achmad Hidayat', 'timtam.rpl@gmail.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', '05325115407', 'timtam.rpl@gmail.com', 1, 'male.png', 'ktp1.jpg', 1),
 ('54466489564', 'Syahid Muhammad Hanif', 'syahid@email.com', '3da541559918a808c2402bba5012f6c60b27661c', '0215498498', 'jalan tamiya', 1, 'male.png', 'e5511a99d9c0ff5ddedb75b7121f42c5.jpg', 1),
@@ -275,7 +278,7 @@ ALTER TABLE `admin`
 -- Indexes for table `booking`
 --
 ALTER TABLE `booking`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`code_booking`);
 
 --
 -- Indexes for table `gallery`
@@ -330,12 +333,6 @@ ALTER TABLE `admin`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT for table `booking`
---
-ALTER TABLE `booking`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
-
---
 -- AUTO_INCREMENT for table `gallery`
 --
 ALTER TABLE `gallery`
@@ -351,7 +348,7 @@ ALTER TABLE `kamar`
 -- AUTO_INCREMENT for table `keuangan`
 --
 ALTER TABLE `keuangan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `perpanjang`
