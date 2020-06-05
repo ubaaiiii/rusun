@@ -7,7 +7,7 @@ $waktu_sekarang = date('H:i', $sekarang);
 <fieldset id="field-perpanjang">
   <form id="form-perpanjang">
     <div class="form-group">
-      <label>Harga Kamar :
+      <label>Harga Sewa Kamar :
       </label>
       <input type="text" name="id-kamar" id="id-kamar" class="form-control" required="" hidden value="<?=$perpanjang['id'];?>">
       <input type="text" name="id-booking" id="id-booking" class="form-control" required="" hidden value="<?=$perpanjang['code_booking'];?>">

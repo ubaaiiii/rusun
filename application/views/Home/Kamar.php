@@ -229,44 +229,11 @@ if($tabel=="Data"){
         <script>
           $(document).ready(function(){
             $('#tableKamar tbody').on( 'click', '#perpanjang', function () {
-              // console.log('a');
               var idnya = $(this).attr('data-id');
               var kodenya = $(this).attr('data-kode');
-              Swal.fire({
-                title: 'Yakin ingin perpanjang sewa kamar '+kodenya+'?',
-                text: "Sewa kamar akan diperpanjang.",
-                icon: 'info',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Ya!',
-                cancelButtonText: 'Tidak',
-              }).then((result) => {
-                if (result.value) {
-                  $.ajax({
-                    url: '<?=base_url("kamar/perpanjang/");?>'+idnya,
-                    method: 'POST',
-                    dataType: 'JSON',
-                    success: (data) => {
-                      console.log(data);
-                      if(data!=false){
-                        table_kamar.ajax.reload();
-                        Swal.fire(
-                          'Terhapus!',
-                          'Kamar telah dihapus.',
-                          'success'
-                        )
-                      } else {
-                        Swal.fire(
-                          'Gagal!',
-                          'Kamar tidak terhapus.',
-                          'warning'
-                        )
-                      }
-                    }
-                  })
-                }
-              })
+              $('#modalSmall').modal({'backdrop': 'static','keyboard':false});
+              $('.modal-body').load('<?=base_url('modal/perpanjang');?>/'+idnya);
+              $('#judulModal').html('Perpanjang Waktu Sewa');
             });
 
             $('#tableKamar tbody').on( 'click', '#akhiri', function () {
@@ -289,7 +256,7 @@ if($tabel=="Data"){
                     dataType: 'JSON',
                     success: (data) => {
                       console.log(data);
-                      
+
                     }
                   })
                 }

@@ -193,6 +193,15 @@
             case ("4"):
               return '<span class="badge badge-pill badge-warning" style="letter-spacing: 2px;">DITOLAK</span>';
               break;
+            case ("5"):
+              return '<span class="badge badge-pill badge-danger" style="letter-spacing: 2px;">DIAKHIRI</span>';
+              break;
+            case ("6"):
+              return `<span class="badge badge-pill badge-info">REQUEST PERPANJANG</span>`;
+              break;
+            default:
+              return '<span class="badge badge-pill badge-danger" style="letter-spacing: 2px;">KESALAHAN STATUS</span>';
+              break;
           }
         }},
         {data:"uang",visible:false}
@@ -364,8 +373,14 @@
             case ("4"):
               return '<a href="<?=base_url('home');?>" data-toggle="tooltip" data-placement="right" title="Hubungi Admin" style="letter-spacing: 2px;"><span class="badge badge-pill badge-warning" style="letter-spacing: 2px;">DITOLAK</span></a>';
               break;
+            case ("5"):
+              return `<a href="<?=base_url('home');?>" data-toggle="tooltip" data-placement="right" title="Hubungi Admin" style="letter-spacing: 2px;"><span class="badge badge-pill badge-danger">DIAKHIRI</span></a>`;
+              break;
             case ("6"):
-              return `<a href="<?=base_url('home');?>" data-toggle="tooltip" data-placement="right" title="Hubungi Admin" style="letter-spacing: 2px;"><span class="badge badge-pill badge-warning">MENUNGGU<br>KONFIRMASI</span></a>`;
+              return `<a href="<?=base_url('home');?>" data-toggle="tooltip" data-placement="right" title="Hubungi Admin" style="letter-spacing: 2px;"><span class="badge badge-pill badge-info">REQUEST PERPANJANG</span></a>`;
+              break;
+            default:
+              return '<span class="badge badge-pill badge-danger" style="letter-spacing: 2px;">KESALAHAN STATUS</span>';
               break;
           }
         }},

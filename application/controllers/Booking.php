@@ -19,8 +19,7 @@ class Booking extends CI_Controller
         ->join('kamar c','c.id = a.kamar_id','left')
         ->join('rekening d','d.id = a.rek_id','left')
         ->join('perpanjang e','e.code_booking = a.code_booking','left')
-        ->where('a.status != ','0')
-        ->where('a.status != ','5');
+        ->where('a.status != ','0');
         echo json_encode($this->db->get()->result_array());
       } else {
         $this->db->select('a.code_booking as booking, b.nama, c.code as kamar, c.id as id_kamar, a.tanggal_booking, a.tanggal_mulai, a.tanggal_selesai, concat(d.bank," - ",d.nama) as rekening, a.upload_bukti, a.status as bookstats, a.tanggal_lunas')
@@ -134,14 +133,15 @@ class Booking extends CI_Controller
       $booking = $this->db->get_where('booking',['code_booking'=>$kode])->row_array();
       $data_perpanjang = array(
         'code_booking'      => $kode,
-        'tanggal_request'=> date('Y-m-d H:i:s'),
+        'tanggal_request'   => date('Y-m-d H:i:s'),
+        'tanggal_awal'      => $booking['tanggal_selesai'],
         'tanggal_akhir'     => $this->input->post('tanggal-selesai')." ".$this->input->post('waktu-mulai'),
-        'tanggal_sebelumnya'=> $booking['tanggal_selesai'],
-        'jumlah_bulan'      => $jumlah,
-        'status'            => 0
+        'jumlah_bulan'      => $jumlah
       );
       if ($this->db->insert('perpanjang',$data_perpanjang)) {
         echo json_encode($this->db->update('booking',['status'=>5],['code_booking'=>$kode]));
+      } else {
+        echo json_encode("gagal perpanjang");
       }
     }
 
