@@ -194,10 +194,10 @@
               return '<span class="badge badge-pill badge-warning" style="letter-spacing: 2px;">DITOLAK</span>';
               break;
             case ("5"):
-              return '<span class="badge badge-pill badge-danger" style="letter-spacing: 2px;">DIAKHIRI</span>';
+              return '<span class="badge badge-pill badge-info" style="letter-spacing: 2px;">PERPANJANG</span>';
               break;
             case ("6"):
-              return `<span class="badge badge-pill badge-info">REQUEST PERPANJANG</span>`;
+              return `<span class="badge badge-pill badge-info">REQUEST<br>PERPANJANG</span>`;
               break;
             default:
               return '<span class="badge badge-pill badge-danger" style="letter-spacing: 2px;">KESALAHAN STATUS</span>';
@@ -279,31 +279,44 @@
 
 <div class="card mt-3" id="list-history" style="display:none;">
   <div class="card-body">
-    <h4 class="header-title">History Booking</h4>
-    <div class="data-tables datatable-dark">
-      <table id="tableBookingUser" class="text-center table-hover">
-        <thead class="text-capitalize">
-          <tr>
-            <th rowspan="2">No</th>
-            <th rowspan="2">Kode Booking</th>
-            <th rowspan="2">Kamar</th>
-            <th colspan="3">Tanggal</th>
-            <th colspan="2">Bukti</th>
-            <th rowspan="2">Status</th>
-          </tr>
-          <tr>
-            <th>Booking</th>
-            <th>Konfirmasi</th>
-            <th>Selesai</th>
-            <th>Rekening Tujuan</th>
-            <th>Foto</th>
-          </tr>
-        </thead>
-          <tbody>
+    <nav>
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">History Booking</a>
+            <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">History Perpanjang</a>
+        </div>
+    </nav>
+    <div class="tab-content mt-3" id="nav-tabContent">
+        <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+          <div class="data-tables datatable-dark">
+            <table id="tableBookingUser" class="text-center table-hover">
+              <thead class="text-capitalize">
+                <tr>
+                  <th rowspan="2">No</th>
+                  <th rowspan="2">Kode Booking</th>
+                  <th rowspan="2">Kamar</th>
+                  <th colspan="3">Tanggal</th>
+                  <th colspan="2">Bukti</th>
+                  <th rowspan="2">Status</th>
+                </tr>
+                <tr>
+                  <th>Booking</th>
+                  <th>Konfirmasi</th>
+                  <th>Selesai</th>
+                  <th>Rekening Tujuan</th>
+                  <th>Foto</th>
+                </tr>
+              </thead>
+                <tbody>
 
-          </tbody>
-        </table>
+                </tbody>
+              </table>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit nostrum porro architecto saepe iste adipisci praesentium, voluptates unde natus sit optio, incidunt est, nulla explicabo asperiores laborum hic aliquam quos consequuntur? Blanditiis quaerat soluta non accusamus dolores doloremque, quos architecto libero vero magnam possimus modi fugit? Porro laboriosam pariatur magnam.</p>
+        </div>
       </div>
+
     </div>
   </div>
 
@@ -374,10 +387,10 @@
               return '<a href="<?=base_url('home');?>" data-toggle="tooltip" data-placement="right" title="Hubungi Admin" style="letter-spacing: 2px;"><span class="badge badge-pill badge-warning" style="letter-spacing: 2px;">DITOLAK</span></a>';
               break;
             case ("5"):
-              return `<a href="<?=base_url('home');?>" data-toggle="tooltip" data-placement="right" title="Hubungi Admin" style="letter-spacing: 2px;"><span class="badge badge-pill badge-danger">DIAKHIRI</span></a>`;
+              return `<a href="<?=base_url('home');?>" data-toggle="tooltip" data-placement="right" title="Hubungi Admin" style="letter-spacing: 2px;"><span class="badge badge-pill badge-info">PERPANJANG</span></a>`;
               break;
             case ("6"):
-              return `<a href="<?=base_url('home');?>" data-toggle="tooltip" data-placement="right" title="Hubungi Admin" style="letter-spacing: 2px;"><span class="badge badge-pill badge-info">REQUEST PERPANJANG</span></a>`;
+              return `<a href="<?=base_url('home');?>" data-toggle="tooltip" data-placement="right" title="Hubungi Admin" style="letter-spacing: 2px;"><span class="badge badge-pill badge-info">REQUEST<br>PERPANJANG</span></a>`;
               break;
             default:
               return '<span class="badge badge-pill badge-danger" style="letter-spacing: 2px;">KESALAHAN STATUS</span>';

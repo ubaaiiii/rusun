@@ -86,13 +86,17 @@
   }
 
   $(document).ready(function(){
+    if (<?=$invoice['status'];?>==0) {
+      var tipeCancel = "booking";
+    } else {
+      var tipeCancel = "perpanjang";
+    }
     $('#filter-booking').css("display","none");
 
     $('#booking-cancel').on('click',function(){
-      var dataBooking = $(this).attr('data-booking');
       Swal.fire({
         title: 'Anda Yakin Ingin Cancel?',
-        text: "<?=($invoice['status']==0)?('Booking'):('Transaksi');?> #"+dataBooking+" tidak akan bisa dikembalikan.",
+        text: "<?=($invoice['status']==0)?('Booking'):('Transaksi');?> #<?=$invoice['code_booking'];?> tidak akan bisa dikembalikan.",
         icon: 'question',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
@@ -101,19 +105,14 @@
         confirmButtonText: 'Yakin!'
       }).then((result) => {
         if(result.value){
-          if (<?=$invoice['status'];?>==0) {
-            var tipeCancel = "booking";
-          } else {
-            var tipeCancel = "perpanjang";
-          }
           $.ajax({
-            url: "<?=base_url('booking/batal/');?>"+tipeCancel+"/"+dataBooking,
+            url: "<?=base_url('booking/batal/');?>"+tipeCancel+"/<?=$invoice['code_booking'];?>",
             type: "post",
             success: function(data) {
               // console.log(data);
               swal.fire({
                 title: "Success!",
-                text: "<?=($invoice['status']==0)?('Booking'):('Transaksi');?> #"+dataBooking+" telah dibatalkan.",
+                text: "<?=($invoice['status']==0)?('Booking'):('Transaksi');?> #<?=$invoice['code_booking'];?> telah dibatalkan.",
                 icon: "success",
                 showConfirmButton: false,
                 timer: 1000
@@ -134,6 +133,7 @@
     <?php
       if (!isset($lunas)){
     ?>
+
     var ends = new Date("<?=date('Y-m-d H:i:s',strtotime(($invoice['status']==0)?($invoice['tanggal_booking']):($perpanjang['tanggal_request']))+60*60);?>").getTime();
     var x = setInterval(function() {
       var now = new Date().getTime();
@@ -149,31 +149,46 @@
       document.getElementById("sisa-waktu").innerHTML = "Sisa waktu: " + jam
       + minutes + " Menit " + seconds + " Detik ";
       if (distance < 0) {
-        document.getElementById("sisa-waktu").innerHTML = "EXPIRED";
         expp = "expired";
+        document.getElementById("sisa-waktu").innerHTML = "EXPIRED";
         clearInterval(x);
         <?php $cegah = "expired"; ?>
       }
     }, 1000);
 
-    if(expp != "expired"){
-      Swal.fire({
-        title:'Pemberitahuan',
-        html:'Harap Melunasi <?=($invoice['status']==0)?('Booking'):('Transaksi');?> #<?=$invoice['code_booking'];?>.',
-        footer:'<a href="<?=base_url('home');?>">Hubungi Admin.</a>',
-        icon:'warning'
-      })
-    } else {
-      Swal.fire(
-        'Pemberitahuan',
-        'Booking #<?=$invoice['code_booking'];?> telah kadaluarsa.',
-        'error'
-      ).then((result) => {
-        if (result.value) {
-          window.location = "<?=base_url('home');?>"
-        }
-      })
-    }
+    setTimeout(function(){
+      if(expp !== "expired"){
+        console.log(expp);
+        Swal.fire({
+          title:'Pemberitahuan',
+          html:'Harap Melunasi <?=($invoice['status']==0)?('Booking'):('Transaksi');?> #<?=$invoice['code_booking'];?>.',
+          footer:'<a href="<?=base_url('home');?>">Hubungi Admin.</a>',
+          icon:'warning'
+        })
+      } else {
+        Swal.fire({
+          allowOutsideClick: false,
+          title:'Pemberitahuan',
+          html:'<?=($invoice['status']==0)?('Booking'):('Transaksi');?> #<?=$invoice['code_booking'];?> telah kadaluarsa.',
+          icon:'error'
+        }).then((result) => {
+          if (result.value) {
+            $.ajax({
+              url: "<?=base_url('booking/batal/');?>"+tipeCancel+"/<?=$invoice['code_booking'];?>",
+              success: function(data){
+                console.log(data);
+                if (data=="true"){
+                  window.location = "<?=base_url('home');?>";
+                } else {
+                  console.log("gagal");
+                }
+              }
+            })
+          }
+        })
+      }
+    }, 1010);
+
     <?php
       } else {
     ?>

@@ -161,9 +161,10 @@ class Booking extends CI_Controller
         $rekening = $this->input->post('rekening');
         if ($bookingnya['status']==0){
           $result = $this->db->set(['upload_bukti'=>$image,'rek_id'=>$rekening,'status'=>1])->where('code_booking', $codeBooking)->update('booking');
-        } elseif ($bookingnya['status']==6) {
-          $this->db->update('booking',['status'=>4],['code_booking'=>$codeBooking]);
-          $result = $this->db->update('perpanjang',['upload_bukti'=>$image,'rek_id'=>$rekening,'status'=>1],['code_booking'=>$codeBooking,'status'=>0]);
+        } elseif ($bookingnya['status']==5) {
+          $perpanjang = $this->db->get_where('perpanjang',['code_booking'=>$codeBooking,'status'=>0])->row_array();
+          $this->db->update('booking',['status'=>6],['code_booking'=>$codeBooking]);
+          $result = $this->db->update('perpanjang',['upload_bukti'=>$image,'rek_id'=>$rekening,'tanggal_bayar'=>date('Y-m-d H:i:s')],['code_booking'=>$codeBooking,'status'=>0]);
         }
         echo json_encode($result);
       } else {

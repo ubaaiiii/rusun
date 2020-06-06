@@ -57,7 +57,7 @@ class Home extends CI_Controller
           } else {
             $cek_booking = $this->db->get_where('booking',['user_nik'=>$sesi_login['nik'],'status'=>0])->num_rows();
             $cek_history = $this->db->get_where('booking',['user_nik'=>$sesi_login['nik'],'status'=>'!=0'])->num_rows();
-            $cek_perpanjang = $this->db->get_where('booking',['user_nik'=>$sesi_login['nik'],'status'=>6])->num_rows();
+            $cek_perpanjang = $this->db->get_where('booking',['user_nik'=>$sesi_login['nik'],'status'=>5])->num_rows();
             if($cek_booking >= 1){
               $data = array(
               // 'lunas'         => true,
@@ -88,7 +88,7 @@ class Home extends CI_Controller
                                           ->from('booking a')
                                           ->join('kamar b','a.kamar_id = b.id')
                                           ->where('user_nik',$sesi_login['nik'])
-                                          ->where('a.status','6')
+                                          ->where('a.status','5')
                                           ->get()
                                           ->row_array(),
               'perpanjang'    => $this->db->select('a.*')
