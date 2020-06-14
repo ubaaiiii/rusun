@@ -29,7 +29,7 @@
             <th>Konfirmasi</th>
             <th>Rekening Tujuan</th>
             <th>Foto</th>
-            <th>Transfer</th>
+            <th>Biaya Sewa</th>
           </tr>
         </thead>
           <tbody>
@@ -279,44 +279,34 @@
 
 <div class="card mt-3" id="list-history" style="display:none;">
   <div class="card-body">
-    <nav>
-        <div class="nav nav-tabs" id="nav-tab" role="tablist">
-            <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">History Booking</a>
-            <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">History Perpanjang</a>
-        </div>
-    </nav>
-    <div class="tab-content mt-3" id="nav-tabContent">
-        <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-          <div class="data-tables datatable-dark">
-            <table id="tableBookingUser" class="text-center table-hover">
-              <thead class="text-capitalize">
-                <tr>
-                  <th rowspan="2">No</th>
-                  <th rowspan="2">Kode Booking</th>
-                  <th rowspan="2">Kamar</th>
-                  <th colspan="3">Tanggal</th>
-                  <th colspan="2">Bukti</th>
-                  <th rowspan="2">Status</th>
-                </tr>
-                <tr>
-                  <th>Booking</th>
-                  <th>Konfirmasi</th>
-                  <th>Selesai</th>
-                  <th>Rekening Tujuan</th>
-                  <th>Foto</th>
-                </tr>
-              </thead>
-                <tbody>
+    <div class="btn-group mb-xl-3" role="group" aria-label="Basic example">
+        <button type="button" class="btn btn-xs btn-secondary">History Booking</button>
+        <button type="button" class="btn btn-xs btn-secondary">History Perpanjang</button>
+    </div>
+    <div class="data-tables datatable-dark">
+      <table id="tableBookingUser" class="text-center table-hover">
+        <thead class="text-capitalize">
+          <tr>
+            <th rowspan="2">No</th>
+            <th rowspan="2">Kode Booking</th>
+            <th rowspan="2">Kamar</th>
+            <th colspan="3">Tanggal</th>
+            <th colspan="2">Bukti</th>
+            <th rowspan="2">Status</th>
+          </tr>
+          <tr>
+            <th>Booking</th>
+            <th>Konfirmasi</th>
+            <th>Selesai</th>
+            <th>Rekening Tujuan</th>
+            <th>Foto</th>
+          </tr>
+        </thead>
+          <tbody>
 
-                </tbody>
-              </table>
-            </div>
-        </div>
-        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit nostrum porro architecto saepe iste adipisci praesentium, voluptates unde natus sit optio, incidunt est, nulla explicabo asperiores laborum hic aliquam quos consequuntur? Blanditiis quaerat soluta non accusamus dolores doloremque, quos architecto libero vero magnam possimus modi fugit? Porro laboriosam pariatur magnam.</p>
-        </div>
+          </tbody>
+        </table>
       </div>
-
     </div>
   </div>
 
@@ -339,94 +329,169 @@
       $('#modalSmall').modal({'backdrop': 'static','keyboard':false});
     })
 
-    var table_booking = $('#tableBookingUser').DataTable({
-      responsive: true,
-      autoWidth: false,
-      ajax:{
-          url: "<?=base_url('booking/data/'.$dUser['nik']);?>",
-          type:"POST",
-          dataSrc: ""
-      },
-      columns:[
-        {data:"id_kamar"},
-        {data:"booking"},
-        {data:"kamar"},
-        {data:"tanggal_booking", render:function(data){
-          return moment(data).format('YYYY-MM-D [[]H:mm:ss[]]');
-        }},
-        {data:"tanggal_lunas", render:function(data){
-          return (data!=null)?(moment(data).format('YYYY-MM-D [[]H:mm:ss[]]')):(`<a href="<?=base_url('home');?>" data-toggle="tooltip" data-placement="right" title="Hubungi Admin"><span class="badge badge-pill badge-warning" style="letter-spacing: 2px;">MENUNGGU<br>KONFIRMASI</span></a>`);;
-        }},
-        {data:"tanggal_selesai", render:function(data){
-          return (data!=null)?(moment(data).format('YYYY-MM-D [[]H:mm:ss[]]')):(`<span class="badge badge-pill badge-danger">booking E L U M &nbsp;&nbsp;&nbsp;L U N A S</span>`);;
-        }},
-        {data:"rekening"},
-        {data:"upload_bukti",render: function(data,type,row,meta){
-          return `<a href="<?=base_url('assets/images/bukti/');?>`+data+`" data-toggle="lightbox" data-max-width="600" data-title="<?=$setting['nama'];?>" data-footer="<h4 class='float-left'>Tujuan: `+row.rekening+`</p>">
-            <i class="ti-receipt"></i>
-          </a>`;
-        }},
-        {data:"bookstats",render: function(data,type,row,meta){
-          switch(data) {
-            case ("0"):
-              return `<span class="badge badge-pill badge-danger" style="letter-spacing: 2px;">HARAP UPLOAD<BR>BUKTI PEMBAYARAN</span>`;
-              break;
-            case ("1"):
-              return `<a href="<?=base_url('home');?>" data-toggle="tooltip" data-placement="right" title="Hubungi Admin" style="letter-spacing: 2px;"><span class="badge badge-pill badge-warning">MENUNGGU<br>KONFIRMASI</span></a>`;
-              break;
-            case ("2"):
-              return `<div class="btn-group" role="group" aria-label="Basic example">
-                          <button type="button" class="btn btn-xs btn-success">Sedang Dihuni</button>
-                          <button type="button" class="perpanjang btn btn-xs btn-success fa fa-plus" data-kamar="`+row.kamar+`" data-booking="`+row.booking+`" data-toggle="tooltip" data-placement="top" title="Perpanjang Sewa?"></button>
-                      </div>`;
-              break;
-            case ("3"):
-              return '<span class="badge badge-pill badge-success" style="letter-spacing: 2px;">SELESAI</span>';
-              break;
-            case ("4"):
-              return '<a href="<?=base_url('home');?>" data-toggle="tooltip" data-placement="right" title="Hubungi Admin" style="letter-spacing: 2px;"><span class="badge badge-pill badge-warning" style="letter-spacing: 2px;">DITOLAK</span></a>';
-              break;
-            case ("5"):
-              return `<a href="<?=base_url('home');?>" data-toggle="tooltip" data-placement="right" title="Hubungi Admin" style="letter-spacing: 2px;"><span class="badge badge-pill badge-info">PERPANJANG</span></a>`;
-              break;
-            case ("6"):
-              return `<a href="<?=base_url('home');?>" data-toggle="tooltip" data-placement="right" title="Hubungi Admin" style="letter-spacing: 2px;"><span class="badge badge-pill badge-info">REQUEST<br>PERPANJANG</span></a>`;
-              break;
-            default:
-              return '<span class="badge badge-pill badge-danger" style="letter-spacing: 2px;">KESALAHAN STATUS</span>';
-              break;
-          }
-        }},
-        {data:"id_kamar",visible:false}
-      ],
-      "columnDefs": [ {
-          "searchable": false,
-          "orderable": false,
-          "targets": 0
-      },{
-          "searchable": false,
-          "orderable": false,
-          "targets": 8
-      }],
-      "order": [[ 1, 'asc' ]]
-    });
+    function tableHistory(){
+      var table_history = $('#tableBookingUser').DataTable({
+        responsive: true,
+        autoWidth: false,
+        ajax:{
+            url: "<?=base_url('booking/data/'.$dUser['nik']);?>",
+            type:"POST",
+            dataSrc: ""
+        },
+        columns:[
+          {data:"id_kamar"},
+          {data:"booking"},
+          {data:"kamar"},
+          {data:"tanggal_booking", render:function(data){
+            return moment(data).format('YYYY-MM-D [[]H:mm:ss[]]');
+          }},
+          {data:"tanggal_lunas", render:function(data){
+            return (data!=null)?(moment(data).format('YYYY-MM-D [[]H:mm:ss[]]')):(`<a href="<?=base_url('home');?>" data-toggle="tooltip" data-placement="right" title="Hubungi Admin"><span class="badge badge-pill badge-warning" style="letter-spacing: 2px;">MENUNGGU<br>KONFIRMASI</span></a>`);;
+          }},
+          {data:"tanggal_selesai", render:function(data){
+            return (data!=null)?(moment(data).format('YYYY-MM-D [[]H:mm:ss[]]')):(`<span class="badge badge-pill badge-danger">booking E L U M &nbsp;&nbsp;&nbsp;L U N A S</span>`);;
+          }},
+          {data:"rekening"},
+          {data:"upload_bukti",render: function(data,type,row,meta){
+            return `<a href="<?=base_url('assets/images/bukti/');?>`+data+`" data-toggle="lightbox" data-max-width="600" data-title="<?=$setting['nama'];?>" data-footer="<h4 class='float-left'>Tujuan: `+row.rekening+`</p>">
+              <i class="ti-receipt"></i>
+            </a>`;
+          }},
+          {data:"bookstats",render: function(data,type,row,meta){
+            switch(data) {
+              case ("0"):
+                return `<span class="badge badge-pill badge-danger" style="letter-spacing: 2px;">HARAP UPLOAD<BR>BUKTI PEMBAYARAN</span>`;
+                break;
+              case ("1"):
+                return `<a href="<?=base_url('home');?>" data-toggle="tooltip" data-placement="right" title="Hubungi Admin" style="letter-spacing: 2px;"><span class="badge badge-pill badge-warning">MENUNGGU<br>KONFIRMASI</span></a>`;
+                break;
+              case ("2"):
+                return `<div class="btn-group" role="group" aria-label="Basic example">
+                            <button type="button" class="btn btn-xs btn-success">Sedang Dihuni</button>
+                            <button type="button" class="perpanjang btn btn-xs btn-success fa fa-plus" data-kamar="`+row.kamar+`" data-booking="`+row.booking+`" data-toggle="tooltip" data-placement="top" title="Perpanjang Sewa?"></button>
+                        </div>`;
+                break;
+              case ("3"):
+                return '<span class="badge badge-pill badge-success" style="letter-spacing: 2px;">SELESAI</span>';
+                break;
+              case ("4"):
+                return '<a href="<?=base_url('home');?>" data-toggle="tooltip" data-placement="right" title="Hubungi Admin" style="letter-spacing: 2px;"><span class="badge badge-pill badge-warning" style="letter-spacing: 2px;">DITOLAK</span></a>';
+                break;
+              case ("5"):
+                return `<a href="<?=base_url('home');?>" data-toggle="tooltip" data-placement="right" title="Hubungi Admin" style="letter-spacing: 2px;"><span class="badge badge-pill badge-info">PERPANJANG</span></a>`;
+                break;
+              case ("6"):
+                return `<a href="<?=base_url('home');?>" data-toggle="tooltip" data-placement="right" title="Hubungi Admin" style="letter-spacing: 2px;"><span class="badge badge-pill badge-info">REQUEST<br>PERPANJANG</span></a>`;
+                break;
+              default:
+                return '<span class="badge badge-pill badge-danger" style="letter-spacing: 2px;">KESALAHAN STATUS</span>';
+                break;
+            }
+          }},
+          {data:"id_kamar",visible:false}
+        ],
+        "columnDefs": [ {
+            "searchable": false,
+            "orderable": false,
+            "targets": 0
+        },{
+            "searchable": false,
+            "orderable": false,
+            "targets": 8
+        }],
+        "order": [[ 1, 'asc' ]]
+      });
 
-    table_booking.on( 'order.dt search.dt', function () {
-        table_booking.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
-            cell.innerHTML = i+1;
-        } );
-    } ).draw();
-
-  $(".switch").on('click', function(){
-    $(this).toggleClass("active");
-    if ($('.span').text() == "Booking") {
-      $('.span').text("History");
-    } else {
-      $('.span').text("Booking");
+      table_history.on( 'order.dt search.dt', function () {
+          table_history.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+              cell.innerHTML = i+1;
+          } );
+      } ).draw();
     }
-  });
 
-  $('#pTitle').html(`<label class="switch active mt-3">
+    function tableBooking(){
+      var table_booking = $('#tableBookingUser').DataTable({
+        responsive: true,
+        autoWidth: false,
+        ajax:{
+            url: "<?=base_url('booking/data/'.$dUser['nik']);?>",
+            type:"POST",
+            dataSrc: ""
+        },
+        columns:[
+          {data:"id_kamar"},
+          {data:"booking"},
+          {data:"kamar"},
+          {data:"tanggal_booking", render:function(data){
+            return moment(data).format('YYYY-MM-D [[]H:mm:ss[]]');
+          }},
+          {data:"tanggal_lunas", render:function(data){
+            return (data!=null)?(moment(data).format('YYYY-MM-D [[]H:mm:ss[]]')):(`<a href="<?=base_url('home');?>" data-toggle="tooltip" data-placement="right" title="Hubungi Admin"><span class="badge badge-pill badge-warning" style="letter-spacing: 2px;">MENUNGGU<br>KONFIRMASI</span></a>`);;
+          }},
+          {data:"tanggal_selesai", render:function(data){
+            return (data!=null)?(moment(data).format('YYYY-MM-D [[]H:mm:ss[]]')):(`<span class="badge badge-pill badge-danger">booking E L U M &nbsp;&nbsp;&nbsp;L U N A S</span>`);;
+          }},
+          {data:"rekening"},
+          {data:"upload_bukti",render: function(data,type,row,meta){
+            return `<a href="<?=base_url('assets/images/bukti/');?>`+data+`" data-toggle="lightbox" data-max-width="600" data-title="<?=$setting['nama'];?>" data-footer="<h4 class='float-left'>Tujuan: `+row.rekening+`</p>">
+              <i class="ti-receipt"></i>
+            </a>`;
+          }},
+          {data:"bookstats",render: function(data,type,row,meta){
+            switch(data) {
+              case ("0"):
+                return `<span class="badge badge-pill badge-danger" style="letter-spacing: 2px;">HARAP UPLOAD<BR>BUKTI PEMBAYARAN</span>`;
+                break;
+              case ("1"):
+                return `<a href="<?=base_url('home');?>" data-toggle="tooltip" data-placement="right" title="Hubungi Admin" style="letter-spacing: 2px;"><span class="badge badge-pill badge-warning">MENUNGGU<br>KONFIRMASI</span></a>`;
+                break;
+              case ("2"):
+                return `<div class="btn-group" role="group" aria-label="Basic example">
+                            <button type="button" class="btn btn-xs btn-success">Sedang Dihuni</button>
+                            <button type="button" class="perpanjang btn btn-xs btn-success fa fa-plus" data-kamar="`+row.kamar+`" data-booking="`+row.booking+`" data-toggle="tooltip" data-placement="top" title="Perpanjang Sewa?"></button>
+                        </div>`;
+                break;
+              case ("3"):
+                return '<span class="badge badge-pill badge-success" style="letter-spacing: 2px;">SELESAI</span>';
+                break;
+              case ("4"):
+                return '<a href="<?=base_url('home');?>" data-toggle="tooltip" data-placement="right" title="Hubungi Admin" style="letter-spacing: 2px;"><span class="badge badge-pill badge-warning" style="letter-spacing: 2px;">DITOLAK</span></a>';
+                break;
+              case ("5"):
+                return `<a href="<?=base_url('home');?>" data-toggle="tooltip" data-placement="right" title="Hubungi Admin" style="letter-spacing: 2px;"><span class="badge badge-pill badge-info">PERPANJANG</span></a>`;
+                break;
+              case ("6"):
+                return `<a href="<?=base_url('home');?>" data-toggle="tooltip" data-placement="right" title="Hubungi Admin" style="letter-spacing: 2px;"><span class="badge badge-pill badge-info">REQUEST<br>PERPANJANG</span></a>`;
+                break;
+              default:
+                return '<span class="badge badge-pill badge-danger" style="letter-spacing: 2px;">KESALAHAN STATUS</span>';
+                break;
+            }
+          }},
+          {data:"id_kamar",visible:false}
+        ],
+        "columnDefs": [ {
+            "searchable": false,
+            "orderable": false,
+            "targets": 0
+        },{
+            "searchable": false,
+            "orderable": false,
+            "targets": 8
+        }],
+        "order": [[ 1, 'asc' ]]
+      });
+
+      table_booking.on( 'order.dt search.dt', function () {
+          table_booking.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+              cell.innerHTML = i+1;
+          } );
+      } ).draw();
+    }
+
+    tableBooking();
+
+  $('#pTitle').html(`<label class="switch book active mt-3">
     <input type="checkbox" <?=(isset($history))?(''):('checked');?> id="togBtn"><div class="slider round"></div>
   </label>`);
 

@@ -32,6 +32,18 @@ class Booking extends CI_Controller
       }
     }
 
+    public function History()
+    {
+      $this->db->select('a.code_booking as booking,(a.jumlah*c.harga) as uang, b.nama, c.code as kamar, c.id as id_kamar, a.tanggal_booking, a.tanggal_mulai, a.tanggal_selesai, concat(d.bank," - ",d.nama) as rekening, a.upload_bukti, a.status as bookstats, a.tanggal_lunas')
+      ->from('booking a')
+      ->join('users b','b.nik = a.user_nik','left')
+      ->join('kamar c','c.id = a.kamar_id','left')
+      ->join('rekening d','d.id = a.rek_id','left')
+      ->join('perpanjang e','e.code_booking = a.code_booking','left')
+      ->where('a.status != ','0');
+      echo json_encode($this->db->get()->result_array());
+    }
+
     public function DataManagement()
     {
       $this->db->select('b.code_booking as booking, c.nama, a.code as kamar, b.tanggal_booking, b.tanggal_mulai, b.tanggal_selesai ')
