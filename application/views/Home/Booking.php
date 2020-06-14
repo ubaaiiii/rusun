@@ -280,8 +280,8 @@
 <div class="card mt-3" id="list-history" style="display:none;">
   <div class="card-body">
     <div class="btn-group mb-xl-3" role="group" aria-label="Basic example">
-        <button type="button" class="btn btn-xs btn-secondary">History Booking</button>
-        <button type="button" class="btn btn-xs btn-secondary">History Perpanjang</button>
+        <button type="button" id="btn-hist-book" class="btn btn-xs btn-secondary active"><i class="fa fa-book"></i> Booking</button>
+        <button type="button" id="btn-hist-per" class="btn btn-xs btn-secondary"><i class="fa fa-refresh"></i> Perpanjang</button>
     </div>
     <div class="data-tables datatable-dark">
       <table id="tableBookingUser" class="text-center table-hover">
@@ -314,13 +314,6 @@
 <script>
   $(document).ready(function(){
 
-    function rupiah(uangnya){
-      var	reverse = uangnya.toString().split('').reverse().join(''),
-      	ribuan 	= reverse.match(/\d{1,3}/g);
-      	ribuan	= ribuan.join('.').split('').reverse().join('');
-        return "RP. "+ribuan;
-    }
-
     $('#tableBookingUser tbody').on( 'click', '.perpanjang', function () {
       var booking = $(this).attr('data-booking');
       var kamar = $(this).attr('data-kamar');
@@ -330,11 +323,12 @@
     })
 
     function tableHistory(){
+      $('#tableBookingUser').DataTable().destroy();
       var table_history = $('#tableBookingUser').DataTable({
         responsive: true,
         autoWidth: false,
         ajax:{
-            url: "<?=base_url('booking/data/'.$dUser['nik']);?>",
+            url: "<?=base_url('perpanjang/data/'.$dUser['nik']);?>",
             type:"POST",
             dataSrc: ""
         },
@@ -410,6 +404,7 @@
     }
 
     function tableBooking(){
+      $('#tableBookingUser').DataTable().destroy();
       var table_booking = $('#tableBookingUser').DataTable({
         responsive: true,
         autoWidth: false,
@@ -490,6 +485,18 @@
     }
 
     tableBooking();
+
+    $('#btn-hist-book').click(function(){
+      $('#btn-hist-per').removeClass('active');
+      $(this).addClass('active');
+      tableHistory();
+    });
+
+    $('#btn-hist-per').click(function(){
+      $('#btn-hist-book').removeClass('active');
+      $(this).addClass('active');
+      tableBooking();
+    });
 
   $('#pTitle').html(`<label class="switch book active mt-3">
     <input type="checkbox" <?=(isset($history))?(''):('checked');?> id="togBtn"><div class="slider round"></div>

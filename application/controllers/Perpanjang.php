@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Booking extends CI_Controller
+class Perpanjang extends CI_Controller
 {
     public function __construct()
     {
@@ -14,7 +14,7 @@ class Booking extends CI_Controller
     {
       if($nik==null){
         $this->db->select('a.code_booking as booking,(a.jumlah*c.harga) as uang, b.nama, c.code as kamar, c.id as id_kamar, a.tanggal_booking, a.tanggal_mulai, a.tanggal_selesai, concat(d.bank," - ",d.nama) as rekening, a.upload_bukti, a.status as bookstats, a.tanggal_lunas')
-        ->from('booking a')
+        ->from('perpanjang a')
         ->join('users b','b.nik = a.user_nik','left')
         ->join('kamar c','c.id = a.kamar_id','left')
         ->join('rekening d','d.id = a.rek_id','left')

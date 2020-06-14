@@ -51,6 +51,10 @@ $(document).ready(function(){
     $(this).ekkoLightbox();
   });
   $('[data-toggle=tooltip]').tooltip();
+
+  $('li:contains("<?=$lokasi;?>")').closest("li").addClass('active');
+  $('li.active').closest('ul').addClass('in');
+  console.log("<?=$lokasi;?>");
 });
 </script>
 </body>

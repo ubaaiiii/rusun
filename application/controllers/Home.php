@@ -45,7 +45,7 @@ class Home extends CI_Controller
         $data = array(
           'setting'       => $this->db->get('setting')->row_array(),
           'booking'       => $this->db->get_where('booking', ['status' => '1'])->num_rows(),
-          'lokasi'        => "Booking",
+          'lokasi'        => "Transaksi",
           'dUser'         => $sesi_login
           );
           $this->load->view('layout/header', $data);
@@ -318,7 +318,7 @@ class Home extends CI_Controller
 
       if (isset($sesi_login['admin'])) {
         $data = array(
-        'lokasi'        => "Pengaturan Aplikasi",
+        'lokasi'        => "Data Aplikasi",
         'dUser'         => $sesi_login,
         'booking'       => $this->db->get_where('booking', ['status' => 1])->num_rows(),
         'setting'       => $this->db->get('setting')->row_array()

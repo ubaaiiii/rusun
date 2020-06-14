@@ -76,7 +76,7 @@
                 <li>
                   <a href="<?=base_url('home');?>" aria-expanded="true">
                     <i class="icon-dashboard2"></i>
-                    <span>dashboard</span></a>
+                    <span>Dashboard</span></a>
                 </li>
                 <li>
                   <a href="<?=base_url();?>" aria-expanded="true">
@@ -87,6 +87,7 @@
                 <li><a href="<?= base_url('home/booking') ?>">
                     <?php if (isset($dUser['admin'])): ?>
                         <i class="icon-calendar"></i> <span>Transaksi</span>
+                        <br><small>Booking, Perpanjang</small></a>
                         <?php if ($booking > 0): ?>
                             <span class="badge badge-danger"><?= $booking ?> Notif</span>
                             <br><small>Proses Booking, Konfirmasi, Tolak</small>
@@ -101,8 +102,8 @@
                     <li>
                         <a href="javascript:void(0)" aria-expanded="true"><i class="icon-room_service"></i><span> Kamar</span></a>
                         <ul class="collapse">
-                            <li><a href="<?= base_url('home/kamar') ?>"><i class="fa fa-bed"></i><span> Data Kamar</span></a></li>
-                            <li><a href="<?= base_url('home/kamar/management') ?>"><i class="ti-timer"></i><span> Management</span></a></li>
+                            <li><a href="<?= base_url('home/kamar') ?>"><i class="fa fa-bed"></i><span>Data Kamar</span></a></li>
+                            <li><a href="<?= base_url('home/kamar/management') ?>"><i class="ti-timer"></i><span> Management Kamar</span></a></li>
                         </ul>
                     </li>
                 <?php } ?>
