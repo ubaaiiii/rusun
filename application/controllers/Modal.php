@@ -34,15 +34,29 @@ class Modal extends CI_Controller
       $this->load->view('modal/booking',$data);
     }
 
-    public function perpanjang($id)
+    public function perpanjang($id,$jenis=null)
     {
-      $data['perpanjang'] = $this->db->select('*')
-                                     ->from('booking a')
-                                     ->join('kamar b','a.kamar_id = b.id')
-                                     ->where('a.code_booking',$id)
-                                     ->get()
-                                     ->row_array();
+      if ($jenis == 'approval') {
+        $data['perpanjang'] = $this->db->select('*')
+                                       ->from('perpanjang a')
+                                       ->join('booking b','a.code_booking = b.code_booking')
+                                       ->join('kamar c','c.id = b.kamar_id')
+                                       ->where('a.code_booking',$id)
+                                       ->where('a.status','0')
+                                       ->get()
+                                       ->row_array();
+      } else {
+        $data['perpanjang'] = $this->db->select('*')
+                                       ->from('booking a')
+                                       ->join('kamar b','a.kamar_id = b.id')
+                                       ->where('a.code_booking',$id)
+                                       ->get()
+                                       ->row_array();
+      }
+      $data['jenis'] = $jenis;
       $this->load->view('modal/perpanjang',$data);
+
+      // var_dump($data['perpanjang']);
     }
 
     public function bukti($gambar='')

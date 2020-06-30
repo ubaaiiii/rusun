@@ -42,6 +42,12 @@
 
 
 <script>
+  function appreq(bkCode,bkName){
+    console.log(bkCode+bkName);
+    $('#judulModal-large').html('Perpanjang Sewa Kamar '+bkName+'?');
+    $('#load-modal-large').load('<?=base_url('modal/perpanjang/');?>'+bkCode+"/approval");
+    $('#modalLarge').modal({'backdrop': 'static','keyboard':false});
+  }
   $(document).ready(function(){
     $('#tableBooking tbody').on( 'click', '.konfirmasi', function () {
       var booking = $(this).attr('data-id');
@@ -197,7 +203,7 @@
               return '<span class="badge badge-pill badge-info" style="letter-spacing: 2px;">PERPANJANG</span>';
               break;
             case ("6"):
-              return `<span class="badge badge-pill badge-info">REQUEST<br>PERPANJANG</span>`;
+              return `<button class="pepanjang badge badge-pill badge-info" onclick="appreq('`+row.booking+`','`+row.nama+`')">REQUEST<br>PERPANJANG</button>`;
               break;
             default:
               return '<span class="badge badge-pill badge-danger" style="letter-spacing: 2px;">KESALAHAN STATUS</span>';
@@ -225,10 +231,12 @@
         } );
     } ).draw();
 
-    $('#tableBooking tbody').on( 'click', '#lihat-bukti', function () {
-      var gambar = $(this).attr('data-gambar');
-      $('#judulModal').html('Bukti Transfer');
-      $('#load-modal-here').load('<?=base_url('modal/bukti/');?>'+gambar);
+    $('#tableBooking tbody').on( 'click', '.perpanjang', function () {
+      var booking = $(this).attr('data-booking');
+      var nama = $(this).attr('data-nama');
+      $('#judulModal').html('Perpanjang Sewa Kamar '+nama+'?');
+      $('#modalLarge').children('#load-modal-here').load('<?=base_url('modal/perpanjang/');?>'+booking+"/approval");
+      $('#modalLarge').modal({'backdrop': 'static','keyboard':false});
     });
 
   })
@@ -320,7 +328,7 @@
       $('#judulModal').html('Perpanjang Sewa Kamar '+kamar);
       $('#load-modal-here').load('<?=base_url('modal/perpanjang/');?>'+booking);
       $('#modalSmall').modal({'backdrop': 'static','keyboard':false});
-    })
+    });
 
     function tableHistory(){
       $('#tableBookingUser').DataTable().destroy();

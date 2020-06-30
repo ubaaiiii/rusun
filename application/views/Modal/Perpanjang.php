@@ -3,48 +3,78 @@ date_default_timezone_set('Asia/Jakarta');
 $sekarang = strtotime($perpanjang['tanggal_selesai']);
 $jarak_awal = date("Y-m-d", strtotime("+1 month", $sekarang));
 $waktu_sekarang = date('H:i', $sekarang);
+
+if ($jenis == "approval") {
+  $disable = "disabled";
+  $ukuran = 'col-md-8';
+  $srcGambar = base_url('assets/images/bukti/').$perpanjang['upload_bukti'];
+  $bulan = $perpanjang['jumlah_bulan'];
+  $hide = "hidden";
+  $hidden = "";
+  $datajenis = "approval";
+} else {
+  $disable = "";
+  $ukuran = 'col-md-12';
+  $srcGambar = "";
+  $bulan = '0';
+  $hide = "";
+  $hidden = "hidden";
+  $datajenis = ""
+}
 ?>
 <fieldset id="field-perpanjang">
   <form id="form-perpanjang">
-    <div class="form-group">
-      <label>Harga Sewa Kamar :
-      </label>
-      <input type="text" name="id-kamar" id="id-kamar" class="form-control" required="" hidden value="<?=$perpanjang['id'];?>">
-      <input type="text" name="id-booking" id="id-booking" class="form-control" required="" hidden value="<?=$perpanjang['code_booking'];?>">
-      <input type="text" id="edit_harga" class="form-control" required style="text-align: right;" readonly value="Rp. <?=number_format($perpanjang['harga'], 0, ',', '.');?>">
-    </div>
-    <div class="form-group">
-      <label>Jumlah Bulan :
-      </label>
-      <input id="perpanjang-bulan" name="bulan" type="range" value="0" min="1" max="12">
-    </div>
-    <div class="form-group">
-      <label>Total Harga :
-      </label>
-      <input type="text" id="total-harga" class="form-control" required style="text-align: right;" readonly value="Rp. <?=number_format($perpanjang['harga'], 0, ',', '.');?>">
-    </div>
-    <div class="form-row">
-      <div class="col-md-6 mb-3">
-        <label for="validationCustom03">Tanggal Sebelumnya :</label>
-        <input type='date' id="tanggal-mulai" name="tanggal-mulai" class="form-control" value="<?=date('Y-m-d',strtotime($perpanjang['tanggal_selesai']));?>" min="<?=date('Y-m-d');?>" readonly>
+    <div class="row">
+      <div class="<?=$ukuran;?>">
+        <div class="form-group">
+          <label>Harga Sewa Kamar :
+          </label>
+          <input type="hidden" name="id-kamar" id="id-kamar" class="form-control" required="" value="<?=$perpanjang['id'];?>">
+          <input type="hidden" name="id-booking" id="id-booking" class="form-control" required="" value="<?=$perpanjang['code_booking'];?>">
+          <input type="hidden" name="jenis" id="jenis" class="form-control" required="" value="<?=$datajenis;?>">
+          <input type="text" id="edit_harga" class="form-control" required style="text-align: right;" readonly value="Rp. <?=number_format($perpanjang['harga'], 0, ',', '.');?>">
+        </div>
+        <div class="form-group">
+          <label>Jumlah Bulan :
+          </label>
+          <input id="perpanjang-bulan" name="bulan" type="range" <?=$disable;?> value="<?=$bulan;?>" min="1" max="12">
+        </div>
+        <div class="form-group">
+          <label>Total Harga :
+          </label>
+          <input type="text" id="total-harga" class="form-control" required style="text-align: right;" readonly value="Rp. <?=number_format($perpanjang['harga'], 0, ',', '.');?>">
+        </div>
+        <div class="form-row">
+          <div class="col-md-6 mb-3">
+            <label for="validationCustom03">Tanggal Sebelumnya :</label>
+            <input type='date' id="tanggal-mulai" name="tanggal-mulai" class="form-control" value="<?=date('Y-m-d',strtotime($perpanjang['tanggal_selesai']));?>" min="<?=date('Y-m-d');?>" readonly>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="validationCustom03">Perpanjang Hingga :</label>
+            <input type='date' id="tanggal-selesai" name="tanggal-selesai" class="form-control" value="<?=$jarak_awal;?>" readonly>
+          </div>
+        </div>
+        <div class="form-group" style="display:none;">
+          <label for="example-time-input" class="col-form-label">Waktu Mulai :</label>
+          <input class="form-control" type="time" name="waktu-mulai" value="<?=$waktu_sekarang;?>" id="example-time-input" readonly>
+          <small><i class="fa fa-info-circle"></i> AM: malam - siang, PM: siang - malam</small>
+        </div>
+        <div class="modal-footer">
+          <button id="submit" class="btn btn-primary" type="submit">Perpanjang</button>
+          <button id="cancel" type="button" class="btn btn-secondary" data-dismiss="modal" <?=$hide;?>>Batal</button>
+          <button id="tolak" type="button" class="btn btn-danger" <?=$hidden;?>>Tolak</button>
+        </div>
       </div>
-      <div class="col-md-6 mb-3">
-        <label for="validationCustom03">Perpanjang Hingga :</label>
-        <input type='date' id="tanggal-selesai" name="tanggal-selesai" class="form-control" value="<?=$jarak_awal;?>" readonly>
-      </div>
+      <?php if($jenis == 'approval') { ?>
+        <div class="col-md-4">
+          <img id='img-upload' src="<?=$srcGambar;?>">
+        </div>
+      <?php } ?>
     </div>
-    <div class="form-group" style="display:none;">
-      <label for="example-time-input" class="col-form-label">Waktu Mulai :</label>
-      <input class="form-control" type="time" name="waktu-mulai" value="<?=$waktu_sekarang;?>" id="example-time-input" readonly>
-      <small><i class="fa fa-info-circle"></i> AM: malam - siang, PM: siang - malam</small>
-    </div>
-    <div class="modal-footer">
-      <button id="submit" class="btn btn-primary" type="submit">Perpanjang</button>
-      <button id="cancel" type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
     </form>
   </fieldset>
 
-  <script>
+<script>
   function formatRupiah(angka, prefix){
     var number_string = angka.toString().replace(/[^,\d]/g, '').toString(),
     split   		= number_string.split(','),
@@ -143,5 +173,7 @@ $waktu_sekarang = date('H:i', $sekarang);
     $('#tanggal-mulai').on('change',function(){
       $('#perpanjang-bulan').trigger('input');
     })
+
+    $('#perpanjang-bulan').trigger('input');
   })
 </script>
