@@ -5,21 +5,21 @@ $jarak_awal = date("Y-m-d", strtotime("+1 month", $sekarang));
 $waktu_sekarang = date('H:i', $sekarang);
 
 if ($jenis == "approval") {
-  $disable = "disabled";
-  $ukuran = 'col-md-8';
-  $srcGambar = base_url('assets/images/bukti/').$perpanjang['upload_bukti'];
-  $bulan = $perpanjang['jumlah_bulan'];
-  $hide = "hidden";
-  $hidden = "";
-  $datajenis = "approval";
+    $disable = "disabled";
+    $ukuran = 'col-md-8';
+    $srcGambar = base_url('assets/images/bukti/').$perpanjang['upload_bukti'];
+    $bulan = $perpanjang['jumlah_bulan'];
+    $hide = "hidden";
+    $hidden = "";
+    $datajenis = "approval";
 } else {
-  $disable = "";
-  $ukuran = 'col-md-12';
-  $srcGambar = "";
-  $bulan = '0';
-  $hide = "";
-  $hidden = "hidden";
-  $datajenis = ""
+    $disable = "";
+    $ukuran = 'col-md-12';
+    $srcGambar = "";
+    $bulan = '0';
+    $hide = "";
+    $hidden = "hidden";
+    $datajenis = "";
 }
 ?>
 <fieldset id="field-perpanjang">
@@ -47,7 +47,7 @@ if ($jenis == "approval") {
         <div class="form-row">
           <div class="col-md-6 mb-3">
             <label for="validationCustom03">Tanggal Sebelumnya :</label>
-            <input type='date' id="tanggal-mulai" name="tanggal-mulai" class="form-control" value="<?=date('Y-m-d',strtotime($perpanjang['tanggal_selesai']));?>" min="<?=date('Y-m-d');?>" readonly>
+            <input type='date' id="tanggal-mulai" name="tanggal-mulai" class="form-control" value="<?=date('Y-m-d', strtotime($perpanjang['tanggal_selesai']));?>" min="<?=date('Y-m-d');?>" readonly>
           </div>
           <div class="col-md-6 mb-3">
             <label for="validationCustom03">Perpanjang Hingga :</label>
@@ -65,7 +65,7 @@ if ($jenis == "approval") {
           <button id="tolak" type="button" class="btn btn-danger" <?=$hidden;?>>Tolak</button>
         </div>
       </div>
-      <?php if($jenis == 'approval') { ?>
+      <?php if ($jenis == 'approval') { ?>
         <div class="col-md-4">
           <img id='img-upload' src="<?=$srcGambar;?>">
         </div>
@@ -105,7 +105,15 @@ if ($jenis == "approval") {
 
     $('#form-perpanjang').submit(function(e) {
       e.preventDefault();
-      var datanya = $(this).serialize();
+      var datanya = $(this).serializeArray();
+      datanya.push({name:'jenis',value:'<?=$jenis;?>'});
+      <?php
+        if ($jenis == 'approval') {
+            ?>
+      var bulannya = {name:'bulan',value:$('#perpanjang-bulan').val()};
+      datanya.push(bulannya);
+      <?php
+        } ?>
       $('#field-perpanjang').prop('disabled',true);
       console.log(datanya);
       $.ajax({
