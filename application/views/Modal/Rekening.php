@@ -1,6 +1,7 @@
 <?php
   if (isset($rekening)) {
-    $rek = $rekening['no_rek'];
+    $id   = $rekening['id'];
+    $rek  = $rekening['no_rek'];
     $nama = $rekening['nama'];
     $bank = $rekening['bank'];
   } else {
@@ -14,6 +15,7 @@
       <div class="col-md-6 mb-3">
           <label for="nomor-rekening">Nomor Rekening</label>
           <input type="number" min=1 class="form-control" name="nomor-rekening" id="nomor-rekening" required="" value="<?=$rek;?>">
+          <input type="hidden" class="form-control" name="id" required="" value="<?=$id;?>">
       </div>
       <div class="col-md-6 mb-3">
           <label for="bank">Bank</label>
@@ -49,7 +51,7 @@ $(document).ready(function(){
     var datanya = $(this).serialize();
     // console.log(datanya);
     $.ajax({
-      url: "<?=base_url('rekening/simpan');?>",
+      url: "<?=base_url('rekening/proses');?>",
       data: datanya,
       type: "post",
       success: function(data) {

@@ -142,8 +142,11 @@
 					"order": [[ 1, 'asc' ]]
 				});
 
-				$('a.edit-rekening').click(function(){
-					console.log('a');
+				$('#table-rekening tbody').on( 'click', '.edit-rekening', function () {
+					var id = $(this).attr('data-id');
+					$('#modalSmall').modal('show');
+					$('#judulModal').html('Ubah Rekening');
+					$('.modal-body').load('<?=base_url('modal/rekening/');?>'+id);
 				});
 
 				tabel_rekening.on( 'order.dt search.dt', function () {
@@ -152,7 +155,7 @@
 					});
 				}).draw();
 
-				$('#tambah-rekening').click(function(){
+					$('#tambah-rekening').click(function(){
 					$('#modalSmall').modal('show');
 					$('#judulModal').html('Tambah Rekening');
 					$('.modal-body').load('<?=base_url('modal/rekening');?>');
