@@ -331,4 +331,24 @@ class Home extends CI_Controller
         redirect('auth');
       }
     }
+
+    public function Pesan()
+    {
+      $sesi_login = (array) $this->session->userdata('user_rusun');
+
+      if (isset($sesi_login['admin'])) {
+        $data = array(
+        'lokasi'        => "Data Pesan",
+        'dUser'         => $sesi_login,
+        'booking'       => $this->db->get_where('booking', ['status' => 1])->num_rows(),
+        'setting'       => $this->db->get('setting')->row_array()
+        );
+
+        $this->load->view('layout/header', $data);
+        $this->load->view('home/pesan', $data);
+        $this->load->view('layout/footer', $data);
+      } else {
+        redirect('auth');
+      }
+    }
 }

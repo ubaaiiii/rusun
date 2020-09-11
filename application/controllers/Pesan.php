@@ -14,4 +14,9 @@ class Pesan extends CI_Controller
     );
     echo json_encode($this->db->insert('pesan',$data));
   }
+
+  public function data()
+  {
+    echo json_encode($this->db->get('pesan')->result_array());
+  }
 }

@@ -4,10 +4,13 @@
     $rek  = $rekening['no_rek'];
     $nama = $rekening['nama'];
     $bank = $rekening['bank'];
+    $tipe = "update";
   } else {
-    $rek = "";
+    $id   = "";
+    $rek  = "";
     $nama = "";
     $bank = "";
+    $tipe = "simpan";
   }
 ?>
 <form method="post" id="form-rekening">
@@ -51,16 +54,20 @@ $(document).ready(function(){
     var datanya = $(this).serialize();
     // console.log(datanya);
     $.ajax({
-      url: "<?=base_url('rekening/proses');?>",
+      url: "<?=base_url('rekening/proses/').$tipe;?>",
       data: datanya,
       type: "post",
       success: function(data) {
         if (data=="true") {
-          table_rekening.ajax.reload();
+          $('#table-rekening').DataTable().ajax.reload();
           $('#modalSmall').modal('hide');
           swal.fire({
             title: "Success!",
+            <?php if (!isset($rekening)) { ?>
             text: "Berhasil Menambah Data Rekening.",
+            <?php } else { ?>
+            text: "Berhasil Merubah Data Rekening.",
+            <?php } ?>
             icon: "success",
             showConfirmButton: false,
             timer: 1000

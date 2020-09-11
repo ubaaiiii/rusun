@@ -106,21 +106,14 @@
                             <li><a href="<?= base_url('home/kamar/management') ?>"><i class="ti-timer"></i><span> Management Kamar</span></a></li>
                         </ul>
                     </li>
-                <?php } ?>
-
-                <?php if (isset($dUser['admin'])) { ?>
                     <li>
                         <a href="<?=base_url('home/laporan');?>" aria-expanded="true"><i class="ti-file"></i><span> Laporan</span><br><small>Laporan Keuangan</small></a>
                     </li>
-                    <?php } ?>
-
-                <?php
-                    if (isset($dUser['admin'])) {
-                        ?>
                     <li>
                         <a href="<?= base_url('home/users') ?>"><i class="fa fa-users"></i><span> Users</span><br><small>Tambah, Edit, Hapus, User, Admin</small></a>
                     </li>
                     <li><a href="<?= base_url('home/gallery') ?>"><i class="ti-gallery"></i> <span>Gallery</span><br><small>Foto - Foto <?=$setting['nama'];?></small></a></li>
+                    <li><a href="<?= base_url('home/pesan') ?>"><i class="ti-envelope"></i> <span>Pesan</span><br><small>Masukkan Dari Pengunjung</small></a></li>
                     <li><a href="<?= base_url('home/setting') ?>"><i class="ti-settings"></i> <span>Setting</span><br><small>Logo, Data Aplikasi, Rekening</small></a></li>
                   <?php
                     } ?>

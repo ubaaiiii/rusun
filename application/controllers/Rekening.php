@@ -20,24 +20,22 @@ class Rekening extends CI_Controller
       $data['nama'] = $this->input->post('pemilik');
       $data['bank'] = $this->input->post('bank');
 
+
       if ($tipe=="update"){
         $id = $this->input->post('id');
-        echo json_encode($this->db->update('rekening',$data,['id'=>$id]));
-      } else {
-        $num = $this->db->get('rekening')->num_rows();
-        for ($i=1; $i <= $num+1 ; $i++) {
-          if ($this->input->post('gender')!==null) {
-            $kode = "A".$i;
-          } else {
-            $kode = "B".$i;
-          }
-          if ($this->db->get_where('rekening',['code'=>$kode])->num_rows()==0) {
-            break;
+        $cek = $this->db->get_where('rekening',['id'=>$id])->row_array();
+        if ($cek['no_rek'] !== $data['no_rek']) {
+          if ($this->db->get_where('rekening',['no_rek'=>$data['no_rek']])->num_rows() > 0) {
+            echo "exists";
           }
         }
-        $data['status'] = "1";
-        $data['code'] = $kode;
-        echo json_encode($this->db->insert('rekening',$data));
+        echo json_encode($this->db->update('rekening',$data,['id'=>$id]));
+      } else {
+        if ($this->db->get_where('rekening',['no_rek'=>$data['no_rek']])->num_rows() > 0) {
+          echo "exists";
+        } else {
+          echo json_encode($this->db->insert('rekening',$data));
+        }
       }
     }
 }
