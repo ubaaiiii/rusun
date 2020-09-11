@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.1
+-- version 5.0.2
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 05, 2020 at 11:02 AM
--- Server version: 10.4.11-MariaDB
--- PHP Version: 7.2.27
+-- Generation Time: Sep 11, 2020 at 11:53 PM
+-- Server version: 10.4.14-MariaDB
+-- PHP Version: 7.4.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -77,9 +76,9 @@ INSERT INTO `booking` (`code_booking`, `user_nik`, `kamar_id`, `jumlah`, `tangga
 (120935074, '54466489564', 7, 12, '2020-03-17 02:25:19', '2020-03-17 02:25:00', '2021-03-17 02:25:00', '2020-03-17 02:26:57', '4971b7dda6cda37ce1fd79bedc3a6c0a.png', 3, 2),
 (380770214, '327307090371003', 1, 3, '2020-02-11 00:00:00', '2020-02-12 00:00:00', '2020-03-12 00:00:00', '2020-03-17 01:12:16', 'link.jpg', 2, 3),
 (515398327, '1232', 3, 12, '2020-03-23 03:48:14', '2020-03-23 03:48:00', '2021-03-23 03:48:00', '2020-03-23 04:45:05', 'e1adfa3b2dc6725411f97c48f5074d6a.jpg', 2, 4),
-(741582317, '213', 1, 1, '2020-06-05 14:59:20', '2020-06-05 14:59:00', '2020-07-05 14:59:00', '2020-06-05 15:13:06', '39632adf525521e66ecd3d408ea87bb6.png', 2, 2),
+(741582317, '213', 1, 1, '2020-06-05 14:59:20', '2020-06-05 14:59:00', '2020-07-05 14:59:00', '2020-06-05 15:13:06', '39632adf525521e66ecd3d408ea87bb6.png', 2, 3),
 (1072961200, '928402984092384', 2, 2, '2020-02-13 00:00:00', '2020-02-12 00:00:00', '2020-03-12 00:00:00', '2020-03-17 01:12:11', 'bca.jpg', 3, 3),
-(1411392328, '123123123', 10, 8, '2020-03-17 01:15:31', '2020-03-26 07:30:00', '2020-11-26 07:30:00', '2020-03-17 01:17:59', '65437c55311c3edf1c53adb181e3b7ed.jpg', 2, 6),
+(1411392328, '123123123', 10, 8, '2020-03-17 01:15:31', '2020-03-26 07:30:00', '2020-12-26 07:30:00', '2020-03-17 01:17:59', '65437c55311c3edf1c53adb181e3b7ed.jpg', 2, 2),
 (1643772807, '1232', 11, 2, '2020-04-14 15:10:42', '2020-04-14 15:10:00', '2020-06-14 15:10:00', NULL, '', NULL, 0);
 
 -- --------------------------------------------------------
@@ -127,7 +126,7 @@ CREATE TABLE `kamar` (
 --
 
 INSERT INTO `kamar` (`id`, `code`, `tingkat`, `harga`, `gender`, `status`) VALUES
-(1, 'A1', 1, '6000000', 1, 3),
+(1, 'A1', 1, '6000000', 1, 1),
 (3, 'A3', 2, '550000', 1, 1),
 (5, 'A5', 3, '500000', 1, 1),
 (6, 'B6', 3, '500000', 2, 1),
@@ -185,7 +184,28 @@ CREATE TABLE `perpanjang` (
 --
 
 INSERT INTO `perpanjang` (`id`, `code_booking`, `tanggal_request`, `tanggal_awal`, `tanggal_akhir`, `jumlah_bulan`, `upload_bukti`, `status`) VALUES
-(2, 1411392328, '2020-06-05 15:05:48', '2020-11-26 07:30:00', '2020-12-26 07:30:00', 1, '', 0);
+(2, 1411392328, '2020-06-05 15:05:48', '2020-11-26 07:30:00', '2020-12-26 07:30:00', 1, '', 0),
+(3, 1411392328, '2020-09-12 04:43:00', '2020-11-26 07:30:00', '2020-12-26 07:30:00', 1, '', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pesan`
+--
+
+CREATE TABLE `pesan` (
+  `id` int(11) NOT NULL,
+  `nama` text NOT NULL,
+  `email` text NOT NULL,
+  `pesan` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `pesan`
+--
+
+INSERT INTO `pesan` (`id`, `nama`, `email`, `pesan`) VALUES
+(1, 'Ubai', 'emailnya.ga@ada.com', 'Pesan - judulnya udah');
 
 -- --------------------------------------------------------
 
@@ -206,7 +226,8 @@ CREATE TABLE `rekening` (
 
 INSERT INTO `rekening` (`id`, `no_rek`, `nama`, `bank`) VALUES
 (2, '0983939392829', 'Mark Zukerberg', 'BNI'),
-(3, '0809093049', 'Ilaham', 'BNI');
+(3, '123', 'Rizqi Ubaidillah', 'BRI'),
+(4, '321', 'Kodir', 'BNI');
 
 -- --------------------------------------------------------
 
@@ -305,6 +326,12 @@ ALTER TABLE `perpanjang`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `pesan`
+--
+ALTER TABLE `pesan`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `rekening`
 --
 ALTER TABLE `rekening`
@@ -354,13 +381,19 @@ ALTER TABLE `keuangan`
 -- AUTO_INCREMENT for table `perpanjang`
 --
 ALTER TABLE `perpanjang`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `pesan`
+--
+ALTER TABLE `pesan`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `rekening`
 --
 ALTER TABLE `rekening`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `setting`
