@@ -129,7 +129,7 @@ class Users extends CI_Controller
             if ($row = $this->M_Auth->get_login($user['email'], $user['password'])) {
               $this->session->set_userdata('user_rusun', $row);
               if (file_exists($gambarnya)) {
-                if ($user['foto'] != "male.png" || $user['foto'] != "female.png") {
+                if ($user['foto'] !== "male.png" && $user['foto'] !== "female.png") {
                   unlink($gambarnya);
                 }
               }
