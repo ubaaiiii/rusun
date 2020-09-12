@@ -87,11 +87,11 @@
                 <li><a href="<?= base_url('home/booking') ?>">
                     <?php if (isset($dUser['admin'])): ?>
                         <i class="icon-calendar"></i> <span>Transaksi</span>
-                        <br><small>Booking, Perpanjang</small></a>
+                        <br><small>Booking, Perpanjang
                         <?php if ($booking > 0): ?>
                             <span class="badge badge-danger"><?= $booking ?> Notif</span>
-                            <br><small>Proses Booking, Konfirmasi, Tolak</small>
                         <?php endif ?>
+                        </small></a>
                     <?php else: ?>
                         <i class="icon-calendar"></i> <span>Booking</span>
                     <?php endif; ?>

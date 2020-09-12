@@ -152,11 +152,12 @@ class Booking extends CI_Controller
 
     public function upload_bukti()
     {
-        $config['upload_path']    = "./assets/images/bukti/";
-        $config['allowed_types']  = 'gif|jpg|png';
+        $config['upload_path']    = "assets/images/bukti/";
+        $config['allowed_types']  = 'gif|jpg|png|jpeg';
         $config['encrypt_name']   = true;
         $config['max_size']       = 2000;
         $this->load->library('upload', $config);
+        $this->upload->initialize($config);
 
         if ($this->upload->do_upload("file_bukti")) {
             $data = array('upload_data' => $this->upload->data());
@@ -173,7 +174,8 @@ class Booking extends CI_Controller
             }
             echo json_encode($result);
         } else {
-            echo "upload_error";
+            // echo "upload_error";
+            echo $this->load->display_errors();
         }
     }
 

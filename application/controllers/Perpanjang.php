@@ -147,11 +147,12 @@ class Perpanjang extends CI_Controller
 
     public function upload_bukti()
     {
-      $config['upload_path']    = "./assets/images/bukti/";
-      $config['allowed_types']  = 'gif|jpg|png';
+      $config['upload_path']    = "assets/images/bukti/";
+      $config['allowed_types']  = 'gif|jpg|png|jpeg';
       $config['encrypt_name']   = TRUE;
       $config['max_size']       = 2000;
       $this->load->library('upload',$config);
+      $this->upload->initialize($config);
 
       if ($this->upload->do_upload("file_bukti")) {
         $data = array('upload_data' => $this->upload->data());

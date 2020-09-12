@@ -11,11 +11,13 @@ class Gallery extends CI_Controller
 
     public function tambah()
     {
-      $config['upload_path']    = "./assets/images/gallery/";
-      $config['allowed_types']  = 'gif|jpg|png';
+      $config['upload_path']    = "assets/images/gallery/";
+      $config['allowed_types']  = 'gif|jpg|png|jpeg';
       $config['encrypt_name']   = TRUE;
       $config['max_size']       = 2000;
       $this->load->library('upload',$config);
+      $this->upload->initialize($config);
+
       $deskripsi = ucwords($this->input->post('judul-gambar'));
       if($this->upload->do_upload("file_gallery")){
         $data = array('upload_data' => $this->upload->data());
