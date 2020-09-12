@@ -238,11 +238,12 @@ class Users extends CI_Controller
     public function simpan_ktp()
     {
       $sesi_login = (array) $this->session->userdata('user_rusun');
-      $config['upload_path']    = "./assets/images/ktp/";
-      $config['allowed_types']  = 'gif|jpg|png';
+      $config['upload_path']    = "assets/images/ktp/";
+      $config['allowed_types']  = 'gif|jpg|png|jpeg';
       $config['encrypt_name']   = TRUE;
       $config['max_size']       = 2000;
       $this->load->library('upload',$config);
+      $this->upload->initialize($config);
 
       if($this->upload->do_upload("file_ktp")){
         $data = array('upload_data' => $this->upload->data());
@@ -258,7 +259,8 @@ class Users extends CI_Controller
           echo "gagal_update";
         }
       } else {
-        echo "gagal_upload";
+        // echo "gagal_upload";
+        echo $this->upload->display_errors();
       }
     }
 
