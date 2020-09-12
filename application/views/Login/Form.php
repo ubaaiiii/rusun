@@ -36,9 +36,9 @@
                 <div class="col-6">
                   <a href="<?=base_url();?>">Rusunawa</a>
                 </div>
-                <div class="col-6 text-right">
+                <!-- <div class="col-6 text-right">
                   <a href="<?=base_url();?>auth/forgot">Lupa Password?</a>
-                </div>
+                </div> -->
               </div>
               <div class="submit-btn-area">
                 <button id="form_submit" type="submit">Masuk
