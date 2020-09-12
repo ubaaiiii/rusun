@@ -95,14 +95,15 @@ class Users extends CI_Controller
     {
       $user = (array) $this->session->userdata('user_rusun');
       if (isset($user['admin'])) {
-        $config['upload_path']    = "./assets/images/author/";
+        $config['upload_path']    = "assets/images/author/";
       } else {
-        $config['upload_path']    = "./assets/images/users/";
+        $config['upload_path']    = "assets/images/users/";
       }
-      $config['allowed_types']  = 'gif|jpg|png';
+      $config['allowed_types']  = 'gif|jpg|png|jpeg';
       $config['encrypt_name']   = TRUE;
       $config['max_size']       = 2000;
       $this->load->library('upload',$config);
+      $this->upload->initialize($config);
       $gambarnya = $config['upload_path'].$user['foto'];
 
       if($this->upload->do_upload("foto_profile")){
@@ -141,7 +142,8 @@ class Users extends CI_Controller
           }
         }
       } else {
-        echo "gagal_upload";
+        // echo "gagal_upload";
+        echo $this->upload->display_errors();
       }
     }
 
