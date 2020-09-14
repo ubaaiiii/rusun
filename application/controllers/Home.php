@@ -148,7 +148,7 @@ class Home extends CI_Controller
             ->join('booking b','b.code_booking = a.code_booking','left')
             ->join('users c','c.nik = b.user_nik')
             ->join('kamar d','d.id = b.kamar_id')
-            ->order_by('b.tanggal_selesai','ASC')
+            ->order_by('b.tanggal_booking','ASC')
             ->get()->result_array();
 
             $data['total'] = $this->db->select('sum(uang) as uang,')
@@ -156,7 +156,7 @@ class Home extends CI_Controller
             ->join('booking b','b.code_booking = a.code_booking','left')
             ->join('users c','c.nik = b.user_nik')
             ->join('kamar d','d.id = b.kamar_id')
-            ->order_by('b.tanggal_selesai','ASC')
+            ->order_by('b.tanggal_booking','ASC')
             ->get()->row_array();
           } else {
             $this->db->select('a.id, b.code_booking as booking, b.tanggal_booking, b.tanggal_selesai, d.code as kamar, c.nama, b.rek_id, a.uang')
@@ -164,18 +164,18 @@ class Home extends CI_Controller
             ->join('booking b','b.code_booking = a.code_booking','left')
             ->join('users c','c.nik = b.user_nik')
             ->join('kamar d','d.id = b.kamar_id')
-            ->where('b.tanggal_selesai >=',substr($periode,0,10))
-            ->where('b.tanggal_selesai <=',substr($periode,13,10))
-            ->order_by('b.tanggal_selesai','ASC');
+            ->where('b.tanggal_booking >=',substr($periode,0,10))
+            ->where('b.tanggal_booking <=',substr($periode,13,10))
+            ->order_by('b.tanggal_booking','ASC');
             $data['datanya'] = $this->db->get()->result_array();
             $this->db->select('sum(uang) as uang')
             ->from('keuangan a')
             ->join('booking b','b.code_booking = a.code_booking','left')
             ->join('users c','c.nik = b.user_nik')
             ->join('kamar d','d.id = b.kamar_id')
-            ->where('b.tanggal_selesai >=',substr($periode,0,10))
-            ->where('b.tanggal_selesai <=',substr($periode,13,10))
-            ->order_by('b.tanggal_selesai','ASC');
+            ->where('b.tanggal_booking >=',substr($periode,0,10))
+            ->where('b.tanggal_booking <=',substr($periode,13,10))
+            ->order_by('b.tanggal_booking','ASC');
             $data['total'] = $this->db->get()->row_array();
           }
           $this->load->view('home/laporan_cetak', $data);

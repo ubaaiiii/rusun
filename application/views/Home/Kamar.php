@@ -255,8 +255,24 @@ if($tabel=="Data"){
                     method: 'POST',
                     dataType: 'JSON',
                     success: (data) => {
-                      console.log(data);
-
+                      if (data == true) {
+                        table_kamar.ajax.reload();
+                        swal.fire({
+                          title: "Success!",
+                          text: "Sewa Kamar "+kodenya+" Telah Diakhiri.",
+                          icon: "success",
+                          showConfirmButton: false,
+                          timer: 1000
+                        });
+                      } else {
+                        swal.fire({
+                          title: "Gagal!",
+                          text: "Gagal Mengakhiri Sewa Kamar "+kodenya+".",
+                          icon: "error",
+                          showConfirmButton: false,
+                          timer: 1000
+                        });
+                      }
                     }
                   })
                 }

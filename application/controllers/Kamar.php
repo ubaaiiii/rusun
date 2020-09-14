@@ -42,7 +42,12 @@ class Kamar extends CI_Controller
 
     public function akhiri($code)
     {
-      // $this->db->query(``)
+      echo json_encode(
+        $this->db->query("UPDATE booking a
+                          INNER JOIN kamar b ON a.kamar_id = b.id
+                          SET a.status = '3',
+                              b.status = '1'
+                          WHERE a.code_booking = '$code'"));
     }
 
     public function proses($tipe)

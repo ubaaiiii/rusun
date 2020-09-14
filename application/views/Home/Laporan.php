@@ -3,7 +3,7 @@
     <div class="">
       <div class="search-box pull-left" style="position:relative;top:-10px;">
           <form action="laporan/print" method="post">
-              <input type="text" name="periode" placeholder="Pilih Periode..." id="rangeLaporan" required>
+              <input type="text" name="periode" placeholder="Pilih Periode Booking..." id="rangeLaporan" required>
               <button type="submit" href="#"><i class="fa fa-print" data-toggle="tooltip" data-placement="right" title="Print"></i></button>
           </form>
       </div>
@@ -89,8 +89,8 @@
       });
       $('#rangeLaporan').focusout(function() {
         this.value = 'All Periode';
-        $('#minDate').val('');
-        $('#maxDate').val('');
+        minDateFilter = "";
+        maxDateFilter = "";
         tabel_laporan.draw();
       });
 
@@ -103,49 +103,51 @@
 
     $('#rangeLaporan').on('apply.daterangepicker', function(ev, picker) {
         $(this).val(picker.startDate.format('YYYY-MM-DD') + ' - ' + picker.endDate.format('YYYY-MM-DD'));
-        $('#minDate').val(picker.startDate.format('YYYY-MM-DD'));
-        $('#maxDate').val(picker.endDate.format('YYYY-MM-DD'));
+        minDateFilter = picker.startDate.format('YYYY-MM-DD')
+        maxDateFilter = picker.endDate.format('YYYY-MM-DD')
         tabel_laporan.draw();
     });
 
     $('#rangeLaporan').on('cancel.daterangepicker', function(ev, picker) {
         $(this).val('All Periode');
-        $('#minDate').val('');
-        $('#maxDate').val('');
+        minDateFilter = "";
+        maxDateFilter = "";
         tabel_laporan.draw();
     });
 
+    minDateFilter = "";
+    maxDateFilter = "";
+
     $.fn.dataTableExt.afnFiltering.push(
-        function( oSettings, aData, iDataIndex ) {
-            var iFini = $('#minDate').val();
-            var iFfin = $('#maxDate').val();
-            var iStartDateCol = 2;
-            var iEndDateCol = 2;
+      function(oSettings, aData, iDataIndex) {
 
-            iFini=iFini.substring(6,10) + iFini.substring(3,5)+ iFini.substring(0,2);
-            iFfin=iFfin.substring(6,10) + iFfin.substring(3,5)+ iFfin.substring(0,2);
-
-            var datofini=aData[iStartDateCol].substring(6,10) + aData[iStartDateCol].substring(3,5)+ aData[iStartDateCol].substring(0,2);
-            var datoffin=aData[iEndDateCol].substring(6,10) + aData[iEndDateCol].substring(3,5)+ aData[iEndDateCol].substring(0,2);
-
-            if ( iFini === "" && iFfin === "" )
-            {
-                return true;
-            }
-            else if ( iFini <= datofini && iFfin === "")
-            {
-                return true;
-            }
-            else if ( iFfin >= datoffin && iFini === "")
-            {
-                return true;
-            }
-            else if (iFini <= datofini && iFfin >= datoffin)
-            {
-                return true;
-            }
-            return false;
+        if (typeof aData._date == 'undefined') {
+          aData._date = new Date(aData[1]).getTime();
         }
+        if (typeof minDateFilter == 'string') {
+          minDateFilter = new Date(minDateFilter).getTime();
+        }
+        if (typeof maxDateFilter == 'string') {
+          maxDateFilter = new Date(maxDateFilter).getTime();
+        }
+
+        if (minDateFilter && !isNaN(minDateFilter)) {
+          if (aData._date < minDateFilter) {
+            console.log("false pertama");
+            return false;
+          }
+        }
+
+        if (maxDateFilter && !isNaN(maxDateFilter)) {
+          if (aData._date > maxDateFilter) {
+            console.log("false kedua");
+            return false;
+          }
+        }
+
+        console.log("true");
+        return true;
+      }
     );
 
     $('a#lihat-bukti').click(function(){

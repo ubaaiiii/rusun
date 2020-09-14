@@ -19,7 +19,9 @@
         <thead class="text-capitalize">
           <tr>
             <th rowspan="2">No</th>
-            <th rowspan="2">Penghuni</th>
+            <th rowspan="2">Kode Booking</th>
+            <th rowspan="2">User</th>
+            <th rowspan="2">Kamar</th>
             <th colspan="2">Tanggal</th>
             <th colspan="3">Bukti</th>
             <th rowspan="2">Actions</th>
@@ -160,27 +162,55 @@
       },
       columns:[
         {data:"booking"},
+        {data:"booking"},
         {data:"nama", render:function(data,type,row,meta){
           return (data==null)?('User Dihapus'):(data);
         }},
+        {data:"kamar"},
         {data:"tanggal_booking", render:function(data){
           return moment(data).format('YYYY-MM-D [[]H:mm:ss[]]');
         }},
-        {data:"tanggal_lunas", render:function(data){
-          return (data!=null)?(moment(data).format('YYYY-MM-D [[]H:mm:ss[]]')):(`<span class="badge badge-pill badge-danger" style="letter-spacing: 2px;">BELUM<BR>DIKONFIRMASI</span>`);;
+        {data:"tanggal_lunas", render:function(data,type,row,meta){
+          if (data != null) {
+            return moment(data).format('YYYY-MM-D [[]H:mm:ss[]]');
+          } else {
+            if (row.bookstats == 0) {
+              return `<span class="badge badge-pill badge-warning" style="letter-spacing: 2px;">MENUNGGU<br>PEMBAYARAN</span>`;
+            } else if (row.bookstats == 1){
+              return `<span class="badge badge-pill badge-warning" style="letter-spacing: 2px;">BELUM<BR>DIKONFIRMASI</span>`;
+            } else {
+              return ``;
+            }
+          }
         }},
-        {data:"rekening"},
+        {data:"rekening", render:function(data,type,row,meta){
+          if (data != null) {
+            return data;
+          } else {
+            if (row.bookstats == 0) {
+              return `<span class="badge badge-pill badge-warning" style="letter-spacing: 2px;">MENUNGGU<br>PEMBAYARAN</span>`;
+            } else if (row.bookstats == 1){
+              return `<span class="badge badge-pill badge-warning" style="letter-spacing: 2px;">BELUM<BR>DIKONFIRMASI</span>`;
+            } else {
+              return ``;
+            }
+          }
+        }},
         {data:"upload_bukti", render: function(data,type,row,meta){
-          return `<a href="<?=base_url('assets/images/bukti/'); ?>`+data+`" data-toggle="lightbox" data-max-width="600" data-title="<?=$setting['nama']; ?>" data-footer="<h4 class='float-left'>Tujuan: `+row.rekening+`</p>">
+          if (data) {
+            return `<a href="<?=base_url('assets/images/bukti/'); ?>`+data+`" data-toggle="lightbox" data-max-width="600" data-title="<?=$setting['nama']; ?>" data-footer="<h4 class='float-left'>Tujuan: `+row.rekening+`</p>">
             <i class="ti-receipt"></i>
-          </a>`;
+            </a>`;
+          } else {
+            return '';
+          }
         }},
         {data:"uang",
           render: $.fn.dataTable.render.number( '.', ',', 2, 'Rp. ' )},
         {data:"bookstats",render: function(data,type,row,meta){
           switch(data) {
             case ("0"):
-              return `<span class="badge badge-pill badge-warning" style="letter-spacing: 2px;">BELUM BAYAR</span>`;
+              return `<span class="badge badge-pill badge-warning" style="letter-spacing: 2px;">MENUNGGU PEMBAYARAN</span>`;
               break;
             case ("1"):
               return `<div class="btn-group" role="group" aria-label="Basic example">
@@ -197,20 +227,22 @@
               return '<span class="badge badge-pill badge-success" style="letter-spacing: 2px;">SELESAI</span>';
               break;
             case ("4"):
-              return '<span class="badge badge-pill badge-warning" style="letter-spacing: 2px;">DITOLAK</span>';
+              return '<span class="badge badge-pill badge-danger red" style="letter-spacing: 2px;">DITOLAK</span>';
               break;
             case ("5"):
               return '<span class="badge badge-pill badge-info" style="letter-spacing: 2px;">PERPANJANG</span>';
               break;
             case ("6"):
-              return `<button class="pepanjang badge badge-pill badge-info" onclick="appreq('`+row.booking+`','`+row.nama+`')">REQUEST<br>PERPANJANG</button>`;
+              return `<button class="perpanjang badge badge-pill badge-info" onclick="appreq('`+row.booking+`','`+row.nama+`')">REQUEST<br>PERPANJANG</button>`;
+              break;
+            case ("7"):
+            return `<span class="badge badge-pill badge-danger">KADALUARSA</span>`;
               break;
             default:
               return '<span class="badge badge-pill badge-danger" style="letter-spacing: 2px;">KESALAHAN STATUS</span>';
               break;
           }
         }},
-        {data:"uang",visible:false}
       ],
       createdRow: function( row, data, dataIndex ) {
         if ( data.nama == null ) {
@@ -221,7 +253,15 @@
           "searchable": false,
           "orderable": false,
           "targets": 0
-      } ],
+      },
+      {
+        targets: 2,
+        className: 'dt-body-left'
+      },
+      {
+        targets: 7,
+        className: 'dt-body-right'
+      }, ],
       "order": [[ 1, 'asc' ]]
     });
 

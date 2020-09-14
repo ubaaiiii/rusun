@@ -30,6 +30,10 @@ class Landing extends CI_Controller
   {
 
     $this->db->query("UPDATE booking
+                      SET booking.status = '7'
+                      WHERE date_add(`tanggal_booking`, INTERVAL 1 HOUR) < NOW()
+                      AND status = '0'");
+    $this->db->query("UPDATE booking
                       JOIN kamar on kamar.id = booking.kamar_id
                       SET kamar.status = '1',
                       booking.status = '3'

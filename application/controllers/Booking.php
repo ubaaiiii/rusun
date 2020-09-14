@@ -17,9 +17,9 @@ class Booking extends CI_Controller
                     ->from('booking a')
                     ->join('users b', 'b.nik = a.user_nik', 'left')
                     ->join('kamar c', 'c.id = a.kamar_id', 'left')
-                    ->join('rekening d', 'd.id = a.rek_id', 'left')
+                    ->join('rekening d', 'd.id = a.rek_id', 'left');
                     // ->join('perpanjang e', 'e.code_booking = a.code_booking', 'left')
-                    ->where('a.status != ', '0');
+                    // ->where('a.status != ', '0');
             echo json_encode($this->db->get()->result_array());
         } else {
             $this->db->select('a.code_booking as booking, b.nama, c.code as kamar, c.id as id_kamar, a.tanggal_booking, a.tanggal_mulai, a.tanggal_selesai, concat(d.bank," - ",d.nama) as rekening, a.upload_bukti, a.status as bookstats, a.tanggal_lunas')

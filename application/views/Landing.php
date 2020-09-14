@@ -272,9 +272,9 @@
 	                  <p class="mb-0">
 											<?php
                           if ($kCowokL[$i]!=0) {
-                              echo '<a href="'.base_url('home/booking').'" class="btn btn-secondary">Sisa Kamar : '.$kCowokL[$i].'</a>';
+                              echo '<a href="'.base_url('home/booking').'" class="btn btn-secondary">Tersedia : '.$kCowokL[$i].'</a>';
                           } else {
-                              echo '<button type="button" class="btn btn-warning mb-3" disabled="">Sisa Kamar : 0</button>';
+                              echo '<button type="button" class="btn btn-danger" disabled="" style="color:pink">Tersedia : 0</button>';
                           }
                       ?>
 	                  </p>
@@ -312,7 +312,13 @@
                   <?php } ?>
 	                <div class="d-flex align-items-center mt-4 meta">
 	                  <p class="mb-0">
-	                    <a <?=($kCewekL[$i]!=0)?('href='.base_url('home/booking')):('');?> class="btn btn-secondary">Sisa Kamar : <?= $kCewekL[$i]; ?></a>
+                      <?php
+                          if ($kCewekL[$i]!=0) {
+                              echo '<a href="'.base_url('home/booking').'" class="btn btn-secondary">Tersedia : '.$kCewekL[$i].'</a>';
+                          } else {
+                              echo '<button type="button" class="btn btn-danger" disabled="" style="color:pink">Tersedia : 0</button>';
+                          }
+                      ?>
 	                  </p>
 	                  <p class="ml-auto mb-0">
 	                    <a class="mr-2">Perempuan
@@ -439,7 +445,7 @@
           <div class="col-md-12 text-center">
 
             <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-						  Copyright &copy;<?=date('Y');?> All rights reserved | This template is made with <i class="icon-heart color-danger" aria-hidden="true"></i> by <a href="<?= base_url(); ?>" target="_blank"><?= $setting['nama'] ?></a>
+						  Copyright &copy;<?=date('Y');?> All rights reserved | This template is made with <a href="https://colorlib.com"><i class="icon-heart" aria-hidden="true" style="color:red;"></i></a> by <a href="<?= base_url(); ?>" target="_blank"><?= $setting['nama'] ?></a>
 						</p>
           </div>
         </div>
