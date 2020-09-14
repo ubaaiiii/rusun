@@ -70,7 +70,7 @@
         </div>
         <div class="float-right">
             <a href="javascript:void(0);" onclick="printDiv('invoice-area');" class="btn btn-primary">Print Invoice</a>
-            <a href="javascript:void(0);" id="upload-bukti" data-toggle="modal" data-target="#modalSmall" onclick="$('.modal-body').load('<?=base_url('modal/upload_bukti/'.$invoice['code_booking']);?>');" class="btn btn-success">Upload Bukti</a>
+            <a href="javascript:void(0);" id="upload-bukti" data-toggle="modal" data-target="#modalSmall" onclick="$('.modal-body').load('<?=base_url('modal/upload_bukti/'.$invoice['code_booking'].'/'.$invoice['status']);?>');" class="btn btn-success">Upload Bukti</a>
             <a href="javascript:void(0);" id="booking-cancel" data-booking="<?=$invoice['code_booking'];?>" class="btn btn-danger">Cancel <?=($invoice['status']==0)?('Booking'):('Perpanjang');?></a>
         </div>
     </div>
